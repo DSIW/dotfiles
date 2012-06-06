@@ -24,3 +24,10 @@ Example:
 * `install_bin` - Install script to bin (beta)
 * `list` - list tasks
 * `uninstall` - Delete all symlinked files from home dir.
+
+_The Rakefile is created of other Rakefiles:_
+
+* [holman/dotfiles](https://github.com/DSIW/dotfiles/blob/master/Rakefile)
+* [ryanb/dotfiles](https://github.com/ryanb/dotfiles/blob/master/Rakefile)
+* [lucapette/dotfiles](https://github.com/lucapette/dotfiles/blob/master/Rakefile)
+
