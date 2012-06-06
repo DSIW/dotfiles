@@ -1,0 +1,90 @@
+# aliasrc file for remote use
+alias ls='ls -F --group-directories-first --color=auto --time-style="+%Y-%m-%d %H:%M" -I ".*~" -I "*~"'
+alias ll='ls -lh'
+alias la='ls -lah'
+alias l='ls -CFh'
+
+alias cls='clear'
+alias pacman='pacman-color'
+alias rm='rm -iv'
+alias cp='cp -irv'
+alias pycp='pycp -i'
+alias ..='cd ..'
+#alias lls='ll --color=always | grep -Ev '^l+' --color=always'
+alias mv='mv -iv'
+alias pymv='pymv -i'
+alias lll='ll'
+alias tar='tar -a'
+alias rm='zip -r'
+alias unp='unp -U'
+alias bc='bc -ql'
+alias mc='mc -b'
+alias sox='sox -S'
+alias wget='wget -c'
+alias psall='ps -axuwwwf'
+alias mpg123='mpg123 -vC'
+alias lo='libreoffice'
+#alias du='du -sch'
+#alias df='df -hT'
+alias vi='vim'
+alias dmesg='dmesg -T'
+
+# Power (see /etc/sudoers with /usr/sbin/visudo)
+alias shutdown='sudo shutdown -hP now'
+alias reboot='sudo reboot'
+alias halt='sudo halt'
+alias poweroff='sudo poweroff'
+alias shutdown='sudo shutdown -hP'
+alias reboot='sudo reboot'
+alias lock='gnome-screensaver-command -l'
+#alias monoff='xset dpms force off'
+#alias monoffs='samsung-tools -b toggle'
+alias showtemp='watch --i=1 cat /proc/acpi/{battery/*/state,thermal_zone/*/temperature}'
+alias showcpufreq='watch -n 1 grep "MHz" /proc/cpuinfo'
+alias showopenports='sudo netstat -tulpen | grep -v '127.0.0.1''
+alias trash='trash-put'
+alias shttpserver='python2 -mSimpleHTTPServer 8080 >/dev/null'
+
+alias ':q'='exit'
+
+# Pacman Aliase
+alias pacup='sudo yaourt -Syu'    # Synchronisiert mit den Repositories, danach Upgrade der Pakete
+alias pacil='sudo yaourt -S'      # Installiert ein Paket
+alias pacrm='sudo yaourt -Rns'    # De-installiert ein Paket (inklusive der Konfiguration und nicht mehr benötigter Abhängigkeiten)
+alias pacio='yaourt -Si'          # Zeigt Informationen über ein installiertes Paket
+alias pacs='yaourt -Ss'           # Sucht nach einem Paket in den Repositories
+
+# safety features
+alias rm='rm -I'                    # 'rm -i' prompts for every file
+alias ln='ln -i'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+alias refreshzsh='source ~/.zshrc'
+alias myzshrc='vim ~/.zshrc.local'
+
+#alias gvim='vim -c ":gvim"'
+#alias vim='gvim'
+alias g='gvim --remote-silent'
+alias gc='g *.[hc] Makefile'
+alias gcp='g *.h *.cpp Makefile'
+alias gj='g *.java'
+alias gtex='g *.tex Makefile'
+
+### FUNCTIONS ####{{{
+function hist()
+{
+  eval history | awk '{print $2}'|awk 'BEGIN {FS="|"} {print $1}'|sort|uniq -c|sort -rn|head -$1
+}
+function uptodir() { # http://www.commandlinefu.com/commands/view/9417/jump-up-to-any-directory-above-the-current-one
+  cd "${PWD/\/$@\/*//$@}" 
+}
+#}}}
+### Global aliases ####{{{
+alias -g G=" | grep"
+alias -g L=" | less"
+alias -g T="tail"
+alias -g H="head"
+#alias -g BILDER="*.jpg *.bmp *.tiff *.jpeg"
+#}}}
