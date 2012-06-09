@@ -1,6 +1,6 @@
 [submodule "zsh.symlink/gnome-terminal-colors-solarized"]
 	path = zsh.symlink/gnome-terminal-colors-solarized
 	url = https://github.com/sigurdga/gnome-terminal-colors-solarized.git
-[submodule "vim"]
-	path = vim
+[submodule "vim.symlink"]
+	path = vim.symlink
 	url = git@github.com:DSIW/vim.git
