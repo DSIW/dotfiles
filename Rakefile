@@ -95,11 +95,16 @@ task :add, :glob do |t, args|
   end
 end
 
-desc "Update all dotfiles"
-task :update do
-  puts `git pull origin master`
+desc "Sync dotfiles with filesystem"
+task :sync do
   Rake::Task[:uninstall].execute
   Rake::Task[:install].execute
+end
+
+desc "Update all dotfiles and sync them"
+task :update do
+  puts `git pull origin master`
+  Rake::Task[:sync].execute
 end
 
 desc "list tasks"
@@ -117,8 +122,8 @@ end
 desc "Init VIM with Vundle"
 task :init_vim do
   puts "Installing Vundle"
-  puts `git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle`
-  `vim +BundleInstall! +BundleClean +q`
+  puts `git clone http://github.com/gmarik/vundle.git "~/.vim/bundle/vundle"`
+  puts "Please run 'vim +BundleInstall! +BundleClean +q' to get bundles"
 end
 
 task :default => ['list']
