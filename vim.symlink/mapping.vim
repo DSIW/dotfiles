@@ -100,8 +100,8 @@ endif
 
 " VIMRC {{{
 " Edit the vimrc file
-nnoremap <silent> ,ev :e ~/.vim/vimrc<CR>
-nnoremap <silent> ,sv :so ~/.vim/mapping.vim<CR>
+nnoremap <silent> ,ev :e ~/.vimrc<CR>
+nnoremap <silent> ,sv :so ~/.vimrc<CR>
 nmap ,em :e ~/.vim/mapping.vim<CR>
 " }}}
 

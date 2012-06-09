@@ -93,6 +93,7 @@
         "Bundle 'VimDebug'
         "Bundle 'camelcasemotion'
         Bundle 'Syntastic'
+        Bundle 'Shougo/neocomplcache'
 
         Bundle 'c.vim'
         Bundle 'FSwitch'
@@ -118,7 +119,7 @@
         Bundle "snipmate-snippets"
         Bundle "garbas/vim-snipmate"
 
-        Bundle 'javascript.vim'
+        "Bundle 'javascript.vim'
         Bundle 'vim-json-bundle'
     " }}}
 
@@ -537,12 +538,45 @@
     " }}}
 
      " neocomplcache {{{
+        " Disable AutoComplPop.
+        let g:acp_enableAtStartup = 0
+        " Use neocomplcache.
         let g:neocomplcache_enable_at_startup = 1
-        let g:neocomplcache_enable_camel_case_completion = 1
+        " Use smartcase.
         let g:neocomplcache_enable_smart_case = 1
+        " Use camel case completion.
+        let g:neocomplcache_enable_camel_case_completion = 1
+        " Use underbar completion.
         let g:neocomplcache_enable_underbar_completion = 1
+        " Set minimum syntax keyword length.
+        let g:neocomplcache_min_syntax_length = 3
+        let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
         let g:neocomplcache_min_syntax_length = 3
         let g:neocomplcache_enable_auto_delimiter = 1
+
+        " Define dictionary.
+        let g:neocomplcache_dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }
+
+        " Define keyword.
+        if !exists('g:neocomplcache_keyword_patterns')
+          let g:neocomplcache_keyword_patterns = {}
+        endif
+        let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+        " AutoComplPop like behavior.
+        "let g:neocomplcache_enable_auto_select = 1
+
+        " Shell like behavior(not recommended).
+        "set completeopt+=longest
+        "let g:neocomplcache_enable_auto_select = 1
+        "let g:neocomplcache_disable_auto_complete = 1
+        "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+        "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+
 
         " AutoComplPop like behavior.
         let g:neocomplcache_enable_auto_select = 0
@@ -582,7 +616,7 @@
             let g:neocomplcache_omni_patterns = {}
         endif
         let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-        "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+        autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
         let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
         let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
         let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
