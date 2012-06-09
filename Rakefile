@@ -42,9 +42,7 @@ task :install do
       FileUtils.rm_rf(target) if overwrite || overwrite_all
       FileUtils.mv(File.join(ENV['HOME'], ".#{file}"), File.join(ENV['HOME'], ".#{file}.#{BACKUP_EXT}")) if backup || backup_all
     end
-    if skip_all
-      FileUtils.ln_s(File.join(REPO, linkable), target, :verbose => true) unless File.exist?(target)
-    else
+    if !skip_all || !File.exist?(target)
       FileUtils.ln_s(File.join(REPO, linkable), target, :verbose => true)
     end
   end
