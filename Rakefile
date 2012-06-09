@@ -1,6 +1,5 @@
 require 'rake'
 require 'pathname'
-require 'pry'
 
 DOTFILE_EXT        = "symlink"
 BACKUP_EXT         = "backup"
@@ -96,6 +95,13 @@ task :add, :glob do |t, args|
   end
 end
 
+desc "Update all dotfiles"
+task :update do
+  puts `git pull origin master`
+  Rake::Task[:uninstall].execute
+  Rake::Task[:install].execute
+end
+
 desc "list tasks"
 task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
@@ -106,6 +112,13 @@ desc "Switch to ZSH (install unless exists)"
 task :init_zsh do
   install_oh_my_zsh
   switch_to_zsh
+end
+
+desc "Init VIM with Vundle"
+task :init_vim do
+  puts "Installing Vundle"
+  puts `git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle`
+  `vim +BundleInstall! +BundleClean +q`
 end
 
 task :default => ['list']
