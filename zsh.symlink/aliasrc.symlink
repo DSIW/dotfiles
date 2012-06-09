@@ -1,7 +1,7 @@
 # aliasrc file for remote use
-alias ls='ls -F --group-directories-first --color=auto --time-style="+%Y-%m-%d %H:%M" -I ".*~" -I "*~"'
-alias ll='ls -lh'
-alias la='ls -lah'
+alias ls='ls -F --group-directories-first --color=auto --time-style="+%Y-%m-%d %H:%M"'
+alias ll='ls -lh -I ".*~" -I "*~"'
+alias la='ls -lah -I ".*~" -I "*~"'
 alias l='ls -CFh'
 
 alias cls='clear'
