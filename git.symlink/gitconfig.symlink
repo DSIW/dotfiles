@@ -39,3 +39,5 @@
   ign = ls-files -o -i --exclude-standard
 	unstage = reset HEAD --
 	last = log -1 HEAD
+[github]
+	user = DSIW
