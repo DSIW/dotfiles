@@ -44,6 +44,15 @@ alias showcpufreq='watch -n 1 grep "MHz" /proc/cpuinfo'
 alias showopenports='sudo netstat -tulpen | grep -v '127.0.0.1''
 alias trash='trash-put'
 alias shttpserver='python2 -mSimpleHTTPServer 8080 >/dev/null'
+alias x='startx'
+alias v='vim'
+alias g='git'
+
+# Git Aliase
+alias gst='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit'
 
 alias ':q'='exit'
 
