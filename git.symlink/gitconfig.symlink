@@ -23,7 +23,7 @@
 [pack]
   threads = 0
 [diff]
-  external = /usr/bin/vimdiff
+  ;external = /usr/bin/vimdiff
 [gui]
 [alias]
   st = status
