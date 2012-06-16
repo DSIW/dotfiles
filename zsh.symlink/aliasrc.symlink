@@ -3,19 +3,15 @@ alias ls='ls -F --group-directories-first --color=auto --time-style="+%Y-%m-%d %
 alias ll='ls -lh -I ".*~" -I "*~"'
 alias la='ls -lah -I ".*~" -I "*~"'
 alias l='ls -CFh'
+alias lll='ll'
 
 alias cls='clear'
 alias pacman='pacman-color'
-alias rm='rm -iv'
-alias cp='cp -irv'
 alias pycp='pycp -i'
 alias ..='cd ..'
-#alias lls='ll --color=always | grep -Ev '^l+' --color=always'
-alias mv='mv -iv'
 alias pymv='pymv -i'
-alias lll='ll'
 alias tar='tar -a'
-alias rm='zip -r'
+alias zip='zip -r'
 alias unp='unp -U'
 alias bc='bc -ql'
 alias mc='mc -b'
@@ -26,7 +22,6 @@ alias mpg123='mpg123 -vC'
 alias lo='libreoffice'
 #alias du='du -sch'
 #alias df='df -hT'
-alias vi='vim'
 alias dmesg='dmesg -T'
 
 # Power (see /etc/sudoers with /usr/sbin/visudo)
@@ -46,6 +41,7 @@ alias trash='trash-put'
 alias shttpserver='python2 -mSimpleHTTPServer 8080 >/dev/null'
 alias x='startx'
 alias v='vim'
+alias vi='vim'
 alias g='git'
 
 # Git Aliase
@@ -64,7 +60,9 @@ alias pacio='yaourt -Si'          # Zeigt Informationen über ein installiertes 
 alias pacs='yaourt -Ss'           # Sucht nach einem Paket in den Repositories
 
 # safety features
-alias rm='rm -I'                    # 'rm -i' prompts for every file
+alias rm='rm -iv'
+alias cp='cp -irv'
+alias mv='mv -iv'
 alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
@@ -74,7 +72,6 @@ alias refreshzsh='source ~/.zshrc'
 alias myzshrc='vim ~/.zshrc.local'
 
 #alias gvim='vim -c ":gvim"'
-#alias vim='gvim'
 alias g='gvim --remote-silent'
 alias gc='g *.[hc] Makefile'
 alias gcp='g *.h *.cpp Makefile'
@@ -87,7 +84,7 @@ function hist()
   eval history | awk '{print $2}'|awk 'BEGIN {FS="|"} {print $1}'|sort|uniq -c|sort -rn|head -$1
 }
 function uptodir() { # http://www.commandlinefu.com/commands/view/9417/jump-up-to-any-directory-above-the-current-one
-  cd "${PWD/\/$@\/*//$@}" 
+  cd "${PWD/\/$@\/*//$@}"
 }
 #}}}
 ### Global aliases ####{{{
@@ -95,5 +92,5 @@ alias -g G=" | grep"
 alias -g L=" | less"
 alias -g T="tail"
 alias -g H="head"
-#alias -g BILDER="*.jpg *.bmp *.tiff *.jpeg"
+#alias -g PICS="*.jpg *.bmp *.tiff *.jpeg"
 #}}}
