@@ -34,10 +34,7 @@ plugins=(archlinux battery bundler git github ruby rake gem ssh-agent vundle)
 
 source $ZSH/oh-my-zsh.sh
 
-bindkey '\e.' insert-last-word
-
-export TIME_STYLE=long-iso
-export EDITOR="vim"
+bindkey '\e.' insert-last-word # Type ESC+. to get the last few words
 
 fpath=(~/myfns $fpath)
 autoload -U zfinit && zfinit
@@ -47,6 +44,10 @@ eval $(dircolors ~/.dircolors)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 source ~/.aliasrc
+
+export TIME_STYLE=long-iso
+export EDITOR="vim"
+export LANG="en_US.UTF-8"
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
