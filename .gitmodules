@@ -3,4 +3,4 @@
 	url = https://github.com/sigurdga/gnome-terminal-colors-solarized.git
 [submodule "vim.symlink"]
 	path = vim.symlink
-	url = git@github.com:DSIW/vim.git
+	url = https://github.com/DSIW/vim.git
