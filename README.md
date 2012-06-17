@@ -5,27 +5,29 @@ these, because they contain sensitive information.
 
 If you want to see any more, please contact me.
 
-Author: DSIW
+Author: [DSIW](https://github.com/DSIW)
 
 E-Mail: dsiw@dsiw-it.de
 
-Repository: DSIW/dotfiles
+Repository: [DSIW/dotfiles](https://github.com/DSIW/dotfiles)
 
 ## Rake Tasks
 
-* `rake add[glob]` -- Add files to dotfiles repository.
+* `rake add[glob]` – Add files to dotfiles repository.
 
 Example:
-    rake add["~/.*[^~]"]
+``` ruby
+rake add["~/.*[^~]"]
+```
 
-* `rake init_vim` -- Init VIM with Vundle
-* `rake init_zsh` -- Switch to ZSH (install unless exists)
-* `rake install` -- Hook our dotfiles into system-standard positions.
-* `rake install_bin` -- Install script to bin
-* `rake list` -- list tasks
-* `rake sync` -- Sync dotfiles with filesystem
-* `rake uninstall` -- Delete all symlinked files from home dir.
-* `rake update` -- Update all dotfiles and sync the
+* `rake init_vim` – Init VIM with Vundle
+* `rake init_zsh` – Switch to ZSH (install unless exists)
+* `rake install` – Hook our dotfiles into system-standard positions.
+* `rake install_bin` – Install script to bin
+* `rake list` – list tasks
+* `rake sync` – Sync dotfiles with filesystem
+* `rake uninstall` – Delete all symlinked files from home dir.
+* `rake update` – Update all dotfiles and sync the
 
 ## Sources
 
