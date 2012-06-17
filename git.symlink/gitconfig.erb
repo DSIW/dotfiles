@@ -1,6 +1,6 @@
 [user]
-	name = DSIW
-	email = dsiw@dsiw-it.de
+  name = <%= print("Your Name: "); STDOUT.flush; STDIN.gets.chomp %>
+  email = <%= print("Your Email: "); STDOUT.flush; STDIN.gets.chomp %>
 [color]
   ui = auto
   status = auto
@@ -22,9 +22,6 @@
   untracked = cyan
 [pack]
   threads = 0
-[diff]
-  ;external = /usr/bin/vimdiff
-[gui]
 [alias]
   st = status
   ci = commit
@@ -37,7 +34,8 @@
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
-	unstage = reset HEAD --
-	last = log -1 HEAD
+  unstage = reset HEAD --
+  last = log -1 HEAD
 [github]
-	user = DSIW
+  user = <%= print("GitHub Username: "); STDOUT.flush; STDIN.gets.chomp %>
+  token = <%= print("GitHub API Token: "); STDOUT.flush; STDIN.gets.chomp %>
