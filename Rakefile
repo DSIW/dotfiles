@@ -1,31 +1,30 @@
 require 'rake'
 require 'pathname'
+require 'erb'
 
 DOTFILE_EXT        = "symlink"
-BACKUP_EXT         = "backup"
+ERB_EXT            = "erb"
+BACKUP_EXT         = "bak"
 REPO               = File.join(ENV['HOME'], ".dotfiles")
 PATH_FOR_DIRS      = ""
 PATH_FOR_BINS      = "_bin"
 PATH_FOR_OH_MY_ZSH = ".oh-my-zsh"
 IGNORE_FILES       = [/^#{PATH_FOR_BINS}/, /^#{PATH_FOR_DIRS}/, /^\.git.*$/, /^Rakefile$/, /^README.*$/]
 
-files = `git ls-files`.split("\n")
-files.reject! { |f| IGNORE_FILES.any? { |re| f.match(re) } }
+#files = `git ls-files`.split("\n")
+#files.reject! { |f| IGNORE_FILES.any? { |re| f.match(re) } }
 
 desc "Hook our dotfiles into system-standard positions."
 task :install do
-  linkables = Dir[File.join("**", "*.#{DOTFILE_EXT}")]
-
   skip_all = false
   overwrite_all = false
   backup_all = false
 
-  linkables.each do |linkable|
+  dotfiles do |dotfile|
     overwrite = false
     backup = false
 
-    file = linkable.split(File::SEPARATOR).last.split(".#{DOTFILE_EXT}").last
-    target = File.join(ENV["HOME"], ".#{file}")
+    target = target_of dotfile
 
     if File.exists?(target) || File.symlink?(target)
       unless skip_all || overwrite_all || backup_all
@@ -40,10 +39,10 @@ task :install do
         end
       end
       FileUtils.rm_rf(target) if overwrite || overwrite_all
-      FileUtils.mv(File.join(ENV['HOME'], ".#{file}"), File.join(ENV['HOME'], ".#{file}.#{BACKUP_EXT}")) if backup || backup_all
+      backup_file file if backup || backup_all
     end
     if !skip_all || !File.exist?(target)
-      FileUtils.ln_s(File.join(REPO, linkable), target, :verbose => true)
+      link_file dotfile
     end
   end
 end
@@ -61,21 +60,16 @@ end
 
 desc "Delete all symlinked files from home dir. Restores backup if exists"
 task :uninstall do
-  Dir["#{REPO}/**/*.#{DOTFILE_EXT}"].each do |linkable|
-
-    file = linkable.split('/').last.split(".#{DOTFILE_EXT}").last
-    target = File.join(ENV["HOME"], ".#{file}")
-
+  dotfile_targets do |target|
     # Remove all symlinks created during installation
     if File.symlink? target
       FileUtils.rm target, :verbose => true
     end
 
     # Replace any backups made during installation
-    if File.exists? "#{ENV["HOME"]}/.#{file}.#{BACKUP_EXT}"
-      FileUtils.mv("ENV['HOME']/.#{file}.#{BACKUP_EXT}", "#{ENV['HOME']}/.#{file}", :verbose => true)
+    if File.exists? "#{target}.#{BACKUP_EXT}"
+      restore_file file
     end
-
   end
 end
 
@@ -133,11 +127,37 @@ def remove_pseudo_dirs glob
   Dir[glob] - pseudo_with_path
 end
 
+def backup_file file
+  puts "backup #{file}"
+  FileUtils.cp(target_of(file), backup_of(file))
+end
+
+def restore_file file
+  puts "restore #{file}"
+  FileUtils.mv(backup_of(file), target_of(file), :verbose => true)
+end
+
+def rm_backup_file file
+  backup = backup_of file
+  puts "rm backup #{backup}"
+  FileUtils.rm_f(file)
+end
+
+def dotfiles
+  Dir["#{REPO}/**/*.{#{DOTFILE_EXT},#{ERB_EXT}}"].map { |file| yield file }
+end
+
+def dotfile_targets
+  dotfiles { |file| yield target_of(file) }
+end
+
+# Examples:
+# * .../file -> ~/.dotfiles/file.symlink
+# * .../dir  -> ~/.dotfiles/_dirs/dir.symlink
 def prepare_filename file
   is_dir = File.directory? file
 
-  pathname = Pathname.new(file)
-  basename = pathname.basename.to_s
+  basename = rm_basename_ext file
   basename = basename[1..-1] if basename.start_with? "." # remove first "."
 
   path = Pathname.new(".") # like empty pathname
@@ -145,36 +165,79 @@ def prepare_filename file
   path += "#{basename}.#{DOTFILE_EXT}"
 end
 
+def replace_file file
+  FileUtils.rm_rf target_of(file)
+  link_file file
+end
+
+def link_file file
+  target = target_of file
+  if file =~ /.#{ERB_EXT}$/
+    generate_file file
+  else
+    puts "linking #{target}"
+    FileUtils.ln_s(file, target, :verbose => false)
+  end
+end
+
+def generate_file file
+  target = target_of file
+  puts "generating #{target}"
+  File.open(target, 'w') do |new_file|
+    new_file.write ERB.new(File.read(file)).result(binding)
+  end
+rescue Interrupt
+end
+
+def rm_erb_ext file
+  file.sub(/\.#{ERB_EXT}$/, '')
+end
+
+def rm_basename_ext file
+  path = Pathname.new(file)
+  path.basename.sub(/\.(#{DOTFILE_EXT}|#{ERB_EXT})$/, '').to_s
+end
+
+def target_of file
+  basename = rm_basename_ext(file)
+  basename = basename[1..-1] if basename.start_with? "." # remove first "."
+  File.join(ENV["HOME"], ".#{basename}")
+end
+
+def backup_of file
+  File.join(ENV['HOME'], "#{rm_basename_ext(file)}.#{BACKUP_EXT}")
+end
+
 def switch_to_zsh
   if ENV["SHELL"] =~ /zsh/
-    puts "using zsh"
+    puts "Using ZSH"
   else
-    print "switch to zsh? (recommended) [ynq] "
+    print "Switch to ZSH? (recommended) [ynq] "
     case $stdin.gets.chomp
     when 'y'
-      puts "switching to zsh"
+      puts "Switching to ZSH"
       system %Q{chsh -s `which zsh`}
     when 'q'
       exit
     else
-      puts "skipping zsh"
+      puts "Skipping ZSH"
     end
   end
 end
 
 def install_oh_my_zsh
   if File.exist?(File.join(ENV['HOME'], "#{PATH_FOR_OH_MY_ZSH}"))
-    puts "found #{ENV['HOME']}/#{PATH_FOR_OH_MY_ZSH}"
+    puts "Found #{ENV['HOME']}/#{PATH_FOR_OH_MY_ZSH}"
   else
-    print "install oh-my-zsh? [ynq] "
+    print "Install oh-my-zsh? [ynq] "
     case $stdin.gets.chomp
     when 'y'
-      puts "installing oh-my-zsh"
+      puts "Installing oh-my-zsh"
       system %Q{git clone https://github.com/robbyrussell/oh-my-zsh.git "#{ENV['HOME']}/#{PATH_FOR_OH_MY_ZSH}"}
     when 'q'
       exit
     else
-      puts "skipping oh-my-zsh, you will need to change #{ENV['HOME']}/.zshrc"
+      puts "Skipping oh-my-zsh, you will need to change #{ENV['HOME']}/.zshrc"
     end
   end
 end
