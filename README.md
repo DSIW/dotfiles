@@ -27,7 +27,7 @@ rake add["~/.*[^~]"]
 * `rake list` – list tasks
 * `rake sync` – Sync dotfiles with filesystem
 * `rake uninstall` – Delete all symlinked files from home dir.
-* `rake update` – Update all dotfiles and sync the
+* `rake update` – Update all dotfiles and sync them
 
 ## Sources
 
