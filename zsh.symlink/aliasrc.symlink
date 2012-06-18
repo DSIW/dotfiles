@@ -86,6 +86,9 @@ function hist()
 function uptodir() { # http://www.commandlinefu.com/commands/view/9417/jump-up-to-any-directory-above-the-current-one
   cd "${PWD/\/$@\/*//$@}"
 }
+up() { # http://www.commandlinefu.com/commands/view/10878/quickly-cd-out-of-directories
+  [ $(( $1 + 0 )) -gt 0 ] && cd $(eval "printf '../'%.0s {1..$1}");
+}
 #}}}
 ### Global aliases ####{{{
 alias -g G=" | grep"
