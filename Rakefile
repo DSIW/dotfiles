@@ -95,7 +95,7 @@ end
 
 desc "Update all dotfiles and sync them"
 task :update do
-  puts `git pull --rebase --recurse-submodule origin master`
+  puts `git pull --rebase --recurse-submodules origin master`
   Rake::Task[:sync].execute
 end
 
