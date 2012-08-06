@@ -1,114 +1,127 @@
 require 'rake'
 require 'pathname'
 require 'erb'
+require 'yaml/store'
 
-DOTFILE_EXT        = "symlink"
-ERB_EXT            = "erb"
-BACKUP_EXT         = "bak"
-REPO               = File.join(ENV['HOME'], ".dotfiles")
-PATH_FOR_DIRS      = ""
-PATH_FOR_BINS      = "_bin"
-PATH_FOR_OH_MY_ZSH = ".oh-my-zsh"
-IGNORE_FILES       = [/^#{PATH_FOR_BINS}/, /^#{PATH_FOR_DIRS}/, /^\.git.*$/, /^Rakefile$/, /^README.*$/]
+begin
+  if require 'colorize'
+    COLORS = true
+  end
+rescue Exception => e
+  COLORS = false
+end
 
-#files = `git ls-files`.split("\n")
-#files.reject! { |f| IGNORE_FILES.any? { |re| f.match(re) } }
+
+DEBUG                       = false
+DOTFILE_EXT                 = "symlink"
+ERB_EXT                     = "erb"
+BACKUP_EXT                  = "bak"
+REPO                        = File.join(ENV['HOME'], ".dotfiles")
+CONFIG_FILE                 = ".dotrc"
+PATH_FOR_DIRS               = ""
+PATH_FOR_BINS               = "_bin"
+PATH_FOR_OH_MY_ZSH          = ".oh-my-zsh"
+STORE = YAML::Store.new File.join(REPO, CONFIG_FILE)
+LINK_OPTIONS                = [:skip,:skip_all,:overwrite,:overwrite_all,:backup,:backup_all]
+CONFIG_OPTIONS              = [:abort,:overwrite]
+DEFAULT_IGNORE_FILES        = [
+  ".git",
+  ".gitmodules",
+  ".gitignore",
+  "Rakefile",
+  "README",
+]
+DEFAULT_ANSWERS             = {
+  :skip          => false,
+  :skip_all      => false,
+  :overwrite     => false,
+  :overwrite_all => false,
+  :backup        => false,
+  :backup_all    => false
+}
 
 desc "Hook our dotfiles into system-standard positions."
 task :install do
-  skip_all = false
-  overwrite_all = false
-  backup_all = false
+  task_install
+  puts colorize("Done.", :green)
+end
 
-  dotfiles do |dotfile|
-    overwrite = false
-    backup = false
+desc "Information about this Rakefile"
+task :info do
+  msg = colorize("You#{COLORS ? "" : " don't"} have installed the gem 'colorize'!", :green)
+  puts <<-EOM
+Author: DSIW (dsiw@dsiw-it.de)
+Repository: https://github.com/DSIW/dotfiles
 
-    target = target_of dotfile
+#{msg}
 
-    if File.exists?(target) || File.symlink?(target)
-      unless skip_all || overwrite_all || backup_all
-        puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
-        case STDIN.gets.chomp
-        when 'o' then overwrite     = true
-        when 'b' then backup        = true
-        when 'O' then overwrite_all = true
-        when 'B' then backup_all    = true
-        when 'S' then skip_all      = true
-        when 's' then next
-        end
-      end
-      FileUtils.rm_rf(target) if overwrite || overwrite_all
-      backup_file file if backup || backup_all
-    end
-    if !skip_all || !File.exist?(target)
-      link_file dotfile
-    end
-  end
+Thanks for using and have fun.
+  EOM
+end
+
+desc "Setup your .dotfiles directory"
+task :setup do
+  task_setup
+  puts colorize("Done.", :green)
 end
 
 desc "Install script to bin"
 task :install_bin do
-  BINS = Dir["#{REPO}/#{PATH_FOR_BINS}/*"]
-  puts "No binaries!" if BINS.empty?
-  BINS.each do |file|
-    target_file = File.join(target_dir, 'sys', 'bin', Pathname.new(file).basename)
-    FileUtils.cp file, target_file, :preserve => true, :verbose => true
-    puts "Installed #{file} to #{target_file}"
-  end
+  task_install_bin
+  puts colorize("Done.", :green)
 end
 
 desc "Delete all symlinked files from home dir. Restores backup if exists"
 task :uninstall do
-  dotfile_targets do |target|
-    # Remove all symlinks created during installation
-    if File.symlink? target
-      FileUtils.rm target, :verbose => true
-    end
-
-    # Replace any backups made during installation
-    if File.exists? "#{target}.#{BACKUP_EXT}"
-      restore_file file
-    end
-  end
+  task_uninstall
+  puts colorize("Done.", :green)
 end
 
 desc "Add files to dotfiles repository. (e.g. glob: ~/.*[^~])"
 task :add, :glob do |t, args|
-  expanded_glob = File.expand_path(args[:glob])
-  remove_pseudo_dirs(expanded_glob).each do |filename|
-    next if !File.file?(filename) && !File.directory?(filename) || File.symlink?(filename)
-    if File.dirname(filename).include? REPO
-      puts "File '#{filename}' does already exist in repository (#{REPO})."
-      next
-    end
-    target = prepare_filename(filename)
-    FileUtils.mv(filename, File.join(REPO, target), :verbose => true)
-  end
+  task_add args
+  puts colorize("Done.", :green)
+end
+
+desc "Remove files from dotfiles repository. (e.g. glob: ~/.*[^~])"
+task :remove, :glob do |t, args|
+  task_remove args
+  puts colorize("Done.", :green)
+end
+
+desc "List your dotfiles"
+task :dotfiles do
+  task_dotfiles
+  puts colorize("Done.", :green)
 end
 
 desc "Sync dotfiles with filesystem"
 task :sync do
-  Rake::Task[:uninstall].execute
-  Rake::Task[:install].execute
+  task_uninstall
+  task_install
+  puts colorize("Done.", :green)
 end
 
 desc "Update all dotfiles and sync them"
 task :update do
   puts `git pull --rebase --recurse-submodules origin master`
-  Rake::Task[:sync].execute
+  task_sync
+  puts colorize("Done.", :green)
 end
 
 desc "list tasks"
 task :list do
-  puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
-  puts "(type rake -T for more detail)\n\n"
+  tasks = Rake::Task.tasks - [Rake::Task[:list]]
+  tasks = tasks.map(&:to_s).map(&:blue) if COLORS
+  puts "Tasks: #{tasks.join(', ')}"
+  puts "(type rake -T for more detail)"
 end
 
 desc "Switch to ZSH (install unless exists)"
 task :init_zsh do
   install_oh_my_zsh
   switch_to_zsh
+  puts colorize("Done.", :green)
 end
 
 desc "Init VIM with Vundle"
@@ -116,6 +129,7 @@ task :init_vim do
   puts "Installing Vundle"
   puts `git clone http://github.com/gmarik/vundle.git "~/.vim/bundle/vundle"`
   puts "Please run 'vim +BundleInstall! +BundleClean +q' to get bundles"
+  puts colorize("Done.", :green)
 end
 
 task :default => ['list']
@@ -129,31 +143,42 @@ end
 
 def backup_file file
   puts "backup #{file}"
-  FileUtils.cp(target_of(file), backup_of(file))
+  FileUtils.cp(target_of(file), backup_of(file), :noop => DEBUG)
 end
 
 def restore_file file
   puts "restore #{file}"
-  FileUtils.mv(backup_of(file), target_of(file), :verbose => true)
+  FileUtils.mv(backup_of(file), target_of(file), :verbose => true, :noop => DEBUG)
 end
 
 def rm_backup_file file
   backup = backup_of file
   puts "rm backup #{backup}"
-  FileUtils.rm_f(file)
+  FileUtils.rm_f(file, :noop => DEBUG)
 end
 
 def dotfiles
-  Dir["#{REPO}/**/*.{#{DOTFILE_EXT},#{ERB_EXT}}"].map { |file| yield file }
+  files = Dir["#{REPO}/**/*.{#{DOTFILE_EXT},#{ERB_EXT}}"]
+  ignore_files = []
+  STORE.transaction { ignore_files = STORE["ignore"] }
+  files.reject! { |f| ignore_files.any? { |re| f.match(/#{re}\//) } }
+  if block_given?
+    files.each { |file| yield file }
+  end
+  files
 end
 
 def dotfile_targets
-  dotfiles { |file| yield target_of(file) }
+  files = dotfiles.map { |dotfile| target_of(dotfile) }
+  if block_given?
+    files.each { |file| yield file }
+  end
+  files
 end
 
 # Examples:
 # * .../file -> ~/.dotfiles/file.symlink
-# * .../dir  -> ~/.dotfiles/_dirs/dir.symlink
+# * .../dir  -> ~/.dotfiles/PATH_FOR_DIRS/dir.symlink
 def prepare_filename file
   is_dir = File.directory? file
 
@@ -166,23 +191,99 @@ def prepare_filename file
 end
 
 def replace_file file
-  FileUtils.rm_rf target_of(file)
+  FileUtils.rm_rf target_of(file), :noop => DEBUG
   link_file file
 end
 
 def link_file file
   target = target_of file
   if file =~ /.#{ERB_EXT}$/
-    generate_file file
+    generate_file file, :noop => DEBUG
   else
-    puts "linking #{target}"
-    FileUtils.ln_s(file, target, :verbose => false)
+    puts "linking to #{target}"
+    FileUtils.ln_s(file, target, :verbose => false, :noop => DEBUG)
   end
 end
 
-def generate_file file
+def unlink_file file
+  target = target_of file
+  if file =~ /.#{ERB_EXT}$/
+    generate_file file, :noop => DEBUG
+  else
+    puts "linking to #{target}"
+    FileUtils.ln_s(file, target, :verbose => false, :noop => DEBUG)
+  end
+end
+
+def link_files dotfiles
+  answers = DEFAULT_ANSWERS
+
+  dotfiles.each do |dotfile|
+    update_answers! answers
+    target = target_of dotfile
+
+    if File.exists?(target) || File.symlink?(target)
+      unless answers[:skip_all] || answers[:overwrite_all] || answers[:backup_all]
+        answer = ask_linking dotfile
+        answers[answer] = true
+        next if answers[:skip]
+      end
+    end
+    FileUtils.rm_rf(target, :noop => DEBUG) if answers[:overwrite] || answers[:overwrite_all]
+    backup_file dotfile if answers[:backup] || answers[:backup_all]
+
+    if !answers[:skip_all] || !File.exist?(target)
+      link_file dotfile
+    end
+  end
+end
+
+def colorize string, color
+  string = string.to_s unless string.is_a? String
+  COLORS ? string.colorize(color) : string
+end
+
+def ask msg, options={}
+  if options[:answers]
+    answers = options[:answers].reduce({}) { |hash,key| hash.merge({key => true}) } # first_key => true,...
+    options.merge! answers do |key, old, new|
+      old && new
+    end
+    options.delete(:answers)
+  end
+  options = options.select { |k,v| v }.keys # select all keys if true
+
+  hash = options.reduce({}) do |hash, sym|
+    indicator = sym.to_s[0]
+    indicator.upcase! if sym.to_s.end_with? "all"
+    hash.merge({indicator.to_sym => sym})
+  end
+
+  options_str = hash.map { |indicator, opt|
+    desc = opt.to_s[1..-1]
+    desc = desc.gsub('_', ' ') if opt.to_s.end_with? "all"
+    "[#{colorize(indicator, :blue)}]#{desc}"
+  }.join(", ")
+
+  puts "#{msg} #{options_str}"
+
+  answer = STDIN.gets.chomp
+  hash[answer.to_sym] || ask(file, options)
+end
+
+def ask_linking dotfile
+  ask colorize("File already exists: #{target_of(dotfile)}, what do you want to do?", :red), :answers => LINK_OPTIONS
+end
+
+def update_answers! answers
+  no_globals = answers.keys.select { |a| !a.to_s.end_with? "all" }
+  no_globals.each { |a| answers[a] = false }
+end
+
+def generate_file file, options={}
   target = target_of file
   puts "generating #{target}"
+  return if options[:noop]
   File.open(target, 'w') do |new_file|
     new_file.write ERB.new(File.read(file)).result(binding)
   end
@@ -200,12 +301,26 @@ end
 
 def target_of file
   basename = rm_basename_ext(file)
-  basename = basename[1..-1] if basename.start_with? "." # remove first "."
+  basename = basename[1..-1] if basename.start_with? "." # removes first "."
   File.join(ENV["HOME"], ".#{basename}")
 end
 
 def backup_of file
   File.join(ENV['HOME'], "#{rm_basename_ext(file)}.#{BACKUP_EXT}")
+end
+
+def uninstall targets
+  targets.each do |target|
+    # Remove all symlinks created during installation
+    if File.symlink? target
+      FileUtils.rm target, :verbose => true, :noop => DEBUG
+    end
+
+    # Replace any backups made during installation
+    if File.exists? "#{target}.#{BACKUP_EXT}"
+      restore_file file
+    end
+  end
 end
 
 def switch_to_zsh
@@ -240,4 +355,63 @@ def install_oh_my_zsh
       puts "Skipping oh-my-zsh, you will need to change #{ENV['HOME']}/.zshrc"
     end
   end
+end
+
+
+def task_add args
+  expanded_glob = File.expand_path(args[:glob])
+  remove_pseudo_dirs(expanded_glob).each do |filename|
+
+    if !File.file?(filename) && !File.directory?(filename)
+      puts colorize("File #{filename} isn't a file or directory.", :red)
+      next
+    end
+    if File.symlink?(filename)
+      puts colorize("File #{filename} is a symlink.", :red)
+      next
+    end
+
+    if File.dirname(filename).include? REPO
+      puts colorize("File '#{filename}' does already exist in repository (#{REPO}).", :red)
+      next
+    end
+    target = prepare_filename(filename)
+    FileUtils.mv(filename, File.join(REPO, target), :verbose => true, :noop => DEBUG)
+    link_files [File.join(REPO, target)]
+  end
+end
+def task_dotfiles
+  files = dotfiles
+  puts "Rake is managing #{colorize files.count, :green} files:"
+  puts ""
+  files.each do |dotfile|
+    puts "  #{colorize "*", :green} #{dotfile.gsub(REPO+'/', '')}"
+  end
+end
+def task_install_bin
+  bins = Dir["#{REPO}/#{PATH_FOR_BINS}/*"]
+  puts "No binaries!" if BINS.empty?
+  bins.each do |file|
+    target_file = File.join(target_dir, 'sys', 'bin', Pathname.new(file).basename)
+    FileUtils.cp file, target_file, :preserve => true, :verbose => true, :noop => DEBUG
+    puts "Installed #{file} to #{target_file}"
+  end
+end
+def task_uninstall
+  uninstall dotfile_targets
+end
+def task_setup
+  FileUtils.mkdir_p REPO
+  answer = ask "File already exists: #{CONFIG_FILE}, what do you want to do?".red, :answers => CONFIG_OPTIONS
+  if answer == :overwrite
+    STORE.transaction do
+      STORE["ignore"] = DEFAULT_IGNORE_FILES.map(&:to_s)
+    end
+  end
+end
+def task_install
+  link_files dotfiles
+end
+def task_remove
+  link_files dotfiles
 end
