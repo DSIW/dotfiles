@@ -1,0 +1,8 @@
+---
+ignore:
+- .git
+- .gitmodules
+- .gitignore
+- Rakefile
+- README
+- vifm.symlink/Trash
