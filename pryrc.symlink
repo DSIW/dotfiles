@@ -1,5 +1,6 @@
 # vim: set ft=ruby
-require 'interactive_editor'
+
+#require 'interactive_editor'
 
 # add the current directories /lib and /spec directories to the path if they exist
 Pry.config.hooks.add_hook(:before_session, :load_files) do
@@ -8,3 +9,5 @@ Pry.config.hooks.add_hook(:before_session, :load_files) do
   # if a local .pryrc defines a _pry_before_session function, execute it now
   send(:_pry_before_session) rescue nil
 end
+
+Pry.config.editor = proc { |file, line| "vi +#{line} #{file}" }
