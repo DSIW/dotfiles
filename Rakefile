@@ -292,10 +292,19 @@ def generate_file file, options={}
   target = target_of file
   puts "generating #{target}"
   return if options[:noop]
+
   File.open(target, 'w') do |new_file|
-    new_file.write ERB.new(File.read(file)).result(binding)
+    STORE.transaction do
+      new_file.write ERB.new(File.read(file)).result(binding)
+    end
   end
 rescue Interrupt
+end
+
+def gets msg
+  print(msg)
+  STDOUT.flush
+  STDIN.gets.chomp
 end
 
 def rm_erb_ext file

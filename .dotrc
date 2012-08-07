@@ -6,3 +6,9 @@ ignore:
 - Rakefile
 - README
 - vifm.symlink/Trash
+git:
+  name:
+  email:
+github:
+  name:
+  token:
