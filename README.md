@@ -11,15 +11,24 @@ E-Mail: dsiw@dsiw-it.de
 
 Repository: [DSIW/dotfiles](https://github.com/DSIW/dotfiles)
 
+## Motivation
+
+Some guys of you ask yourself why did I do this? I did it because it's very good for versioning in systems with
+more than one computer. You can synchronize your dotfiles easily through this script. I use it nearly every day and I love it.
+
 ## Dependencies
 
 * [colorize](https://rubygems.org/gems/colorize) (optional)
 
 ## Installation
 
-``` sh
-git clone --recurse-submodules https://github.com/DSIW/dotfiles.git ~/.dotfiles
-```
+1. Clone into local system: `git clone --recurse-submodules https://github.com/DSIW/dotfiles.git ~/.dotfiles`
+2. Install `colorize`: `gem install colorize`
+3. Create config file: `rake setup`
+4. Edit config file `~/.dotfiles/.dotrc`
+5. Add some dotfiles: `rake add[glob]`
+6. Link all dotfiles in `~/.dotfiles`: `rake install`
+7. Have fun!
 
 ## Rake Tasks
 
