@@ -141,13 +141,22 @@ def remove_pseudo_dirs glob
 end
 
 def backup_file file
-  puts "backup #{file}"
-  FileUtils.cp(target_of(file), backup_of(file), :noop => DEBUG)
+  src_file    = target_of(file, :remove_dot => false)
+  backup_file = backup_of(file, :remove_dot => false)
+  puts "backup to #{backup_file}"
+
+  if File.directory? file
+    FileUtils.cp_r(src_file, backup_file, :noop => DEBUG)
+  else
+    FileUtils.cp(src_file, backup_file, :noop => DEBUG)
+  end
 end
 
 def restore_file file
-  puts "restore #{file}"
-  FileUtils.mv(backup_of(file), target_of(file), :verbose => true, :noop => DEBUG)
+  backup_file = backup_of(file)
+  orig_file   = target_of(file, :remove_dot => false)
+  puts "restore #{backup_file}"
+  FileUtils.mv(backup_file, orig_file, :verbose => true, :noop => DEBUG)
 end
 
 def rm_backup_file file
@@ -298,14 +307,14 @@ def rm_basename_ext file
   path.basename.sub(/\.(#{DOTFILE_EXT}|#{ERB_EXT})$/, '').to_s
 end
 
-def target_of file
+def target_of file, options={:remove_dot => true}
   basename = rm_basename_ext(file)
-  basename = basename[1..-1] if basename.start_with? "." # removes first "."
+  basename = basename[1..-1] if options[:remove_dot] && basename.start_with?(".") # removes first "."
   File.join(ENV["HOME"], ".#{basename}")
 end
 
-def backup_of file
-  File.join(ENV['HOME'], "#{rm_basename_ext(file)}.#{BACKUP_EXT}")
+def backup_of file, options={:remove_dot => true}
+  File.join(ENV['HOME'], "#{options[:remove_dot] ? '' : '.'}#{rm_basename_ext(file)}.#{BACKUP_EXT}")
 end
 
 def uninstall targets
