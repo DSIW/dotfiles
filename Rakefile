@@ -326,7 +326,7 @@ def uninstall targets
 
     # Replace any backups made during installation
     if File.exists? "#{target}.#{BACKUP_EXT}"
-      restore_file file
+      restore_file target
     end
   end
 end
