@@ -126,7 +126,7 @@ end
 desc "Init VIM with Vundle"
 task :init_vim do
   puts "Installing Vundle"
-  puts `git clone http://github.com/gmarik/vundle.git "~/.vim/bundle/vundle"`
+  puts `git clone http://github.com/gmarik/vundle.git "#{ENV['HOME']}/.dotfiles/vim.symlink/bundle/vundle"`
   puts "Please run 'vim +BundleInstall! +BundleClean +q' to get bundles"
   puts colorize("Done.", :green)
 end
