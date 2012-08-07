@@ -31,74 +31,88 @@ rake add["~/.*[^~]"]
 
 * `rake dotfiles` – List your dotfiles
 
-    Rake is managing 17 files:
+```
+Rake is managing 17 files:
 
-      * vim.symlink
-      * vim.symlink/vimrc.symlink
-      * vim.symlink/gvimrc.symlink
-      * git.symlink
-      * oh-my-zsh.symlink
-      * gemrc.symlink
-      * zsh.symlink/zshrc.symlink
-      * zsh.symlink/aliasrc.symlink
-      * urlview.symlink
-      * git.symlink/gitconfig.erb
-    ...
+  * vim.symlink
+  * vim.symlink/vimrc.symlink
+  * vim.symlink/gvimrc.symlink
+  * git.symlink
+  * oh-my-zsh.symlink
+  * gemrc.symlink
+  * zsh.symlink/zshrc.symlink
+  * zsh.symlink/aliasrc.symlink
+  * urlview.symlink
+  * git.symlink/gitconfig.erb
+...
+```
 
 * `rake info` – Information about this Rakefile
 
-    Author: DSIW (dsiw@dsiw-it.de)
-    Repository: https://github.com/DSIW/dotfiles
+```
+Author: DSIW (dsiw@dsiw-it.de)
+Repository: https://github.com/DSIW/dotfiles
 
-    You have installed the gem 'colorize'!
+You have installed the gem 'colorize'!
 
-    Thanks for using and have fun.
+Thanks for using and have fun.
+```
 
 * `rake init_vim` – Init VIM with Vundle
 * `rake init_zsh` – Switch to ZSH (install unless exists)
 * `rake install` – Hook our dotfiles into system-standard positions.
 
-    linking to /home/dsiw/.vim
-    linking to /home/dsiw/.vimrc
-    [...]
-    Done.
+```
+linking to /home/dsiw/.vim
+linking to /home/dsiw/.vimrc
+[...]
+Done.
+```
 
 * `rake install_bin` – Install script to bin
 * `rake list` – list tasks
 
-    Tasks: add, default, dotfiles, info, init_vim, init_zsh, install, install_bin, remove, setup, sync, uninstall, update
-    (type rake -T for more detail)
+```
+Tasks: add, default, dotfiles, info, init_vim, init_zsh, install, install_bin, remove, setup, sync, uninstall, update
+(type rake -T for more detail)
+```
 
 * `rake remove[glob]` – Remove files from dotfiles repository.
 * `rake setup` – Setup your .dotfiles directory and will create .dotrc config file.
 * `rake sync` – Sync dotfiles with filesystem
 
-    rm /home/dsiw/.vim
-    rm /home/dsiw/.vimrc
-    [...]
-    linking to /home/dsiw/.vim
-    linking to /home/dsiw/.vimrc
-    [...]
-    Done.
+```
+rm /home/dsiw/.vim
+rm /home/dsiw/.vimrc
+[...]
+linking to /home/dsiw/.vim
+linking to /home/dsiw/.vimrc
+[...]
+Done.
+```
 
 * `rake uninstall` – Delete all symlinked files from home dir.
 
-    rm /home/dsiw/.vim
-    rm /home/dsiw/.vimrc
-    [...]
-    Done.
+```
+rm /home/dsiw/.vim
+rm /home/dsiw/.vimrc
+[...]
+Done.
+```
 
 * `rake update` – Update all dotfiles and sync them
 
-    <Pulling>
+```
+<Pulling>
 
-    rm /home/dsiw/.vim
-    rm /home/dsiw/.vimrc
-    [...]
-    linking to /home/dsiw/.vim
-    linking to /home/dsiw/.vimrc
-    [...]
-    Done.
+rm /home/dsiw/.vim
+rm /home/dsiw/.vimrc
+[...]
+linking to /home/dsiw/.vim
+linking to /home/dsiw/.vimrc
+[...]
+Done.
+```
 
 See `rake -T` for all available tasks.
 
@@ -109,7 +123,7 @@ The Rakefile is created of these other Rakefiles and software:
 * [holman/dotfiles](https://github.com/DSIW/dotfiles/blob/master/Rakefile)
 * [ryanb/dotfiles](https://github.com/ryanb/dotfiles/blob/master/Rakefile)
 * [lucapette/dotfiles](https://github.com/lucapette/dotfiles/blob/master/Rakefile)
-* [lucapette/dotfiles](https://github.com/lucapette/dotfiles/blob/master/Rakefile)
+* [mattdbridges/dotify](https://github.com/mattdbridges/dotify)
 
 ## Copyright / License
 
