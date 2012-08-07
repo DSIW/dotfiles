@@ -21,7 +21,7 @@ CONFIG_FILE                 = ".dotrc"
 PATH_FOR_DIRS               = ""
 PATH_FOR_BINS               = "_bin"
 PATH_FOR_OH_MY_ZSH          = ".oh-my-zsh"
-STORE = YAML::Store.new File.join(REPO, CONFIG_FILE)
+CONFIG                      = YAML::Store.new File.join(REPO, CONFIG_FILE)
 LINK_OPTIONS                = [:skip,:skip_all,:overwrite,:overwrite_all,:backup,:backup_all]
 CONFIG_OPTIONS              = [:abort,:overwrite]
 DEFAULT_IGNORE_FILES        = [
@@ -168,7 +168,7 @@ end
 def dotfiles
   files = Dir["#{REPO}/**/*.{#{DOTFILE_EXT},#{ERB_EXT}}"]
   ignore_files = []
-  STORE.transaction { ignore_files = STORE["ignore"] }
+  CONFIG.transaction { ignore_files = CONFIG["ignore"] }
   files.reject! { |f| ignore_files.any? { |re| f.match(/#{re}\//) } }
   if block_given?
     files.each { |file| yield file }
@@ -294,7 +294,7 @@ def generate_file file, options={}
   return if options[:noop]
 
   File.open(target, 'w') do |new_file|
-    STORE.transaction do
+    CONFIG.transaction do
       new_file.write ERB.new(File.read(file)).result(binding)
     end
   end
@@ -421,8 +421,8 @@ def task_setup
   FileUtils.mkdir_p REPO
   answer = ask "File already exists: #{CONFIG_FILE}, what do you want to do?".red, :answers => CONFIG_OPTIONS
   if answer == :overwrite
-    STORE.transaction do
-      STORE["ignore"] = DEFAULT_IGNORE_FILES.map(&:to_s)
+    CONFIG.transaction do
+      CONFIG["ignore"] = DEFAULT_IGNORE_FILES.map(&:to_s)
     end
   end
 end

@@ -1,6 +1,6 @@
 [user]
-  name = <%= STORE["git"]["name"] || gets("Your Name: ") %>
-  email = <%= STORE["git"]["email"] || gets("Your Email: ")%>
+  name = <%= CONFIG["git"]["name"] || gets("Your Name: ") %>
+  email = <%= CONFIG["git"]["email"] || gets("Your Email: ")%>
 [color]
   ui = auto
   status = auto
@@ -51,8 +51,8 @@
   branches = branch -a
   tags = tag -l
 [github]
-  user = <%= STORE["github"]["name"] || gets("GitHub Username: ") %>
-  token = <%= STORE["github"]["token"] || gets("GitHub API Token: ") %>
+  user = <%= CONFIG["github"]["name"] || gets("GitHub Username: ") %>
+  token = <%= CONFIG["github"]["token"] || gets("GitHub API Token: ") %>
 [merge]
   tool = vimdiff
 [branch]
