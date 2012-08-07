@@ -24,18 +24,40 @@
   threads = 0
 [alias]
   st = status
+  cl = clone
   ci = commit
   br = branch
   co = checkout
   df = diff
   dc = diff --cached
+  sm = submodule
+  cp = cherry-pick
+  dt = difftool
+
+  # Log
   lg = log -p
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+
+  # List
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
+
   unstage = reset HEAD --
   last = log -1 HEAD
+
+  # Plural
+  remotes = remote -v
+  branches = branch -a
+  tags = tag -l
 [github]
   user = <%= print("GitHub Username: "); STDOUT.flush; STDIN.gets.chomp %>
   token = <%= print("GitHub API Token: "); STDOUT.flush; STDIN.gets.chomp %>
+[merge]
+  tool = vimdiff
+[branch]
+	autosetupmerge = true
+[rerere]
+	enabled = true
+[difftool]
+	prompt = false
