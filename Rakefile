@@ -97,8 +97,7 @@ end
 
 desc "Sync dotfiles with filesystem"
 task :sync do
-  task_uninstall
-  task_install
+  task_sync
   puts colorize("Done.", :green)
 end
 
@@ -414,4 +413,8 @@ def task_install
 end
 def task_remove
   link_files dotfiles
+end
+def task_sync
+  task_uninstall
+  task_install
 end
