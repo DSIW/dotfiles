@@ -16,6 +16,10 @@ Repository: [DSIW/dotfiles](https://github.com/DSIW/dotfiles)
 Some guys of you ask yourself why did I do this? I did it because it's very good for versioning in systems with
 more than one computer. You can synchronize your dotfiles easily through this script. I use it nearly every day and I love it.
 
+## Ruby versions
+
+* 1.9.3
+
 ## Dependencies
 
 * [colorize](https://rubygems.org/gems/colorize) (optional)
