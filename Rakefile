@@ -103,8 +103,8 @@ end
 
 desc "Update all dotfiles and sync them"
 task :update do
-  puts `git submodule foreach git pull --rebase origin master`
   puts `git pull --rebase origin master`
+  puts `git submodule update --recursive --rebase --init`
   puts `git push`
   task_sync
   puts colorize("Done.", :green)
