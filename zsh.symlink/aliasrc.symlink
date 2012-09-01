@@ -13,6 +13,7 @@ alias pymv='pymv -i'
 alias tar='tar -a'
 alias zip='zip -r'
 alias unp='unp -U'
+alias mkdir='mkdir -p'
 alias bc='bc -ql'
 alias mc='mc -b'
 alias sox='sox -S'
@@ -53,11 +54,18 @@ alias gc='git commit'
 alias ':q'='exit'
 
 # Pacman Aliase
-alias pacup='sudo yaourt -Syu'    # Synchronisiert mit den Repositories, danach Upgrade der Pakete
-alias pacil='sudo yaourt -S'      # Installiert ein Paket
-alias pacrm='sudo yaourt -Rns'    # De-installiert ein Paket (inklusive der Konfiguration und nicht mehr benötigter Abhängigkeiten)
-alias pacio='yaourt -Si'          # Zeigt Informationen über ein installiertes Paket
-alias pacs='yaourt -Ss'           # Sucht nach einem Paket in den Repositories
+alias pacup='sudo pacman -Syu'              # Synchronize with repositories before upgrading packages that are out of date on the local system.
+alias pacin='sudo pacman -S'                # Install specific package(s) from the repositories
+alias pacins='sudo pacman -U'               # Install specific package not from the repositories but from a file
+alias pacre='sudo pacman -R'                # Remove the specified package(s), retaining its configuration(s) and required dependencies
+alias pacrm='sudo pacman -Rns'              # Remove the specified package(s), its configuration(s) and unneeded dependencies
+alias paci='pacman -Si'                     # Display information about a given package in the repositories
+alias pacreps='pacman -Ss'                  # Search for package(s) in the repositories
+alias pacloc='pacman -Qi'                   # Display information about a given package in the local database
+alias paclocs='pacman -Qs'                  # Search for package(s) in the local database
+alias pacpkgfile='pacman -Qo'               # Search for package(s), which have the file included
+alias pacupd='sudo pacman -Sy && sudo abs'  # Update and refresh the local package and ABS databases against repositories
+alias pacmir='sudo pacman -Syy'             # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
 
 # safety features
 alias rm='rm -iv'
