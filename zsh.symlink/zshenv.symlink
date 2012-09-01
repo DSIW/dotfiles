@@ -1,0 +1,3 @@
+export TIME_STYLE=long-iso
+export EDITOR="vim"
+export LANG="en_US.UTF-8"
