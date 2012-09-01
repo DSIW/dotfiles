@@ -1,0 +1,7 @@
+*~
+.*.swp
+*.local
+*.local.symlink
+*.bak
+update_vim.sh
+!.gitignore
