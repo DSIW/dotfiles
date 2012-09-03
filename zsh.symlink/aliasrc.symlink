@@ -105,3 +105,5 @@ alias -g T="tail"
 alias -g H="head"
 #alias -g PICS="*.jpg *.bmp *.tiff *.jpeg"
 #}}}
+
+[[ -f ~/.aliasrc.local ]] && source ~/.aliasrc.local
