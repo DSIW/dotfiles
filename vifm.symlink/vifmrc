@@ -119,9 +119,9 @@ filetype *.html firefox
 filetype *.ods,*.odt,*.xlsx,*.xls,*.doc,*.docx,*.ppt,*.pptx libreoffice
 
 " Media
-filetype *.avi,*.mov,*.mkv,*.wmv,*.mp4 vlc
+filetype *.avi,*.mov,*.mkv,*.wmv,*.mp4,*.webm vlc
 filetype *.mp3 mpg123
-filetype *.ogg,*.webm mplayer
+filetype *.ogg mplayer
 filetype *.jpg,*.jpeg,*.gif,*.png,*.bmp,*.tiff eog
 
 " ISOs
