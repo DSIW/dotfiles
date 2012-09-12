@@ -50,6 +50,10 @@
   remotes = remote -v
   branches = branch -a
   tags = tag -l
+
+  # Assume changes
+  ignchg = update-index --assume-unchanged
+  noignchg = update-index --no-assume-unchanged
 [github]
   user = <%= CONFIG["github"]["name"] || gets("GitHub Username: ") %>
   token = <%= CONFIG["github"]["token"] || gets("GitHub API Token: ") %>
