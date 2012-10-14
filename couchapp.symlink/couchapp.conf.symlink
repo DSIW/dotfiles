@@ -1,0 +1,10 @@
+{
+  "env": {
+    "default": {
+      "db": "http://localhost:5984/smat-test"
+    },
+    "smat-test": {
+      "db": "https://smat_couchadmin:apNedJuk3@couchdb.smat.phoenix.uberspace.de/smat-test"
+    }
+  }
+}
