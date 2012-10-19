@@ -421,7 +421,7 @@ def task_uninstall
 end
 def task_setup
   FileUtils.mkdir_p REPO
-  answer = ask "File already exists: #{CONFIG_FILE}, what do you want to do?".red, :answers => CONFIG_OPTIONS
+  answer = ask colorize("File already exists: #{CONFIG_FILE}, what do you want to do?", :red), :answers => CONFIG_OPTIONS
   if answer == :overwrite
     CONFIG.transaction do
       CONFIG["ignore"] = DEFAULT_IGNORE_FILES.map(&:to_s)
