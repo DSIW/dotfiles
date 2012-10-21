@@ -12,7 +12,7 @@ rescue Exception => e
 end
 
 
-DEBUG                       = false
+DEBUG                       = true
 DOTFILE_EXT                 = "symlink"
 ERB_EXT                     = "erb"
 BACKUP_EXT                  = "bak"
@@ -261,7 +261,7 @@ def ask msg, options={}
     end
     options.delete(:answers)
   end
-  options = options.select { |k,v| v }.keys # select all keys if true
+  options = options.select { |k,v| v }.to_hash.keys # select all keys if true
 
   hash = options.reduce({}) do |hash, sym|
     indicator = sym.to_s[0]
