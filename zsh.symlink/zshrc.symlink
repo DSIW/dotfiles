@@ -43,6 +43,7 @@ autoload -U zfinit && zfinit
 eval $(dircolors ~/.dircolors)
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+export LOCALE=en_US.utf8
 
 source ~/.aliasrc
 source ~/.zshenv
