@@ -80,11 +80,11 @@ alias refreshzsh='source ~/.zshrc'
 alias myzshrc='vim ~/.zshrc.local'
 
 #alias gvim='vim -c ":gvim"'
-alias g='gvim --remote-silent'
-alias gc='g *.[hc] Makefile'
-alias gcp='g *.h *.cpp Makefile'
-alias gj='g *.java'
-alias gtex='g *.tex Makefile'
+#alias g='gvim --remote-silent'
+#alias gc='g *.[hc] Makefile'
+#alias gcp='g *.h *.cpp Makefile'
+#alias gj='g *.java'
+#alias gtex='g *.tex Makefile'
 
 ### FUNCTIONS ####{{{
 function hist()

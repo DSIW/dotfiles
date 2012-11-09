@@ -45,6 +45,7 @@ eval $(dircolors ~/.dircolors)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 source ~/.aliasrc
+source ~/.zshenv
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
