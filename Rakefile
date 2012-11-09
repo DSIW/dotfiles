@@ -294,7 +294,6 @@ module Util
       string = string.to_s unless string.is_a? String
       COLORS ? string.colorize(color) : string
     end
-  end
 
     def ask msg, options={}
       if options[:answers]
