@@ -4,3 +4,6 @@
 [submodule "vim.symlink"]
 	path = vim.symlink
 	url = https://github.com/DSIW/vim.git
+[submodule "oh-my-zsh.symlink"]
+	path = oh-my-zsh.symlink
+	url = https://github.com/robbyrussell/oh-my-zsh
