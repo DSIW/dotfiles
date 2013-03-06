@@ -48,6 +48,8 @@ export LOCALE=en_US.utf8
 source ~/.aliasrc
 source ~/.zshenv
 
+stty -ixon
+
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
 # mode: sh
