@@ -32,6 +32,9 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(archlinux battery bundler git github ruby rake gem ssh-agent vundle zsh-syntax-highlighting)
 #plugins=(archlinux battery git github ssh-agent vundle)
 
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+#ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
+
 source $ZSH/oh-my-zsh.sh
 
 bindkey '\e.' insert-last-word # Type ESC+. to get the last few words
