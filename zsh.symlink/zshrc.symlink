@@ -51,6 +51,8 @@ export LOCALE=en_US.utf8
 source ~/.aliasrc
 source ~/.zshenv
 
+eval "$(rbenv init -)"
+
 stty -ixon
 
 ## END OF FILE #################################################################
