@@ -4,5 +4,3 @@ export LANG="en_US.utf8"
 export LOCALE="en_US.utf8"
 
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
