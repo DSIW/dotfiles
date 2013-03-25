@@ -46,6 +46,7 @@ alias gvim='gvim --servername GVIM --remote-tab-silent'
 alias v='vim'
 alias vi='vim'
 alias g='git'
+alias calc='bc <<<'
 
 # Git Aliase
 alias gst='git status'
