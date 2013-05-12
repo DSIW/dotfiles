@@ -82,7 +82,9 @@ alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
 alias refreshzsh='source ~/.zshrc'
+alias refreshurxvt='xrdb ~/.Xresources'
 alias myzshrc='vim ~/.zshrc.local'
+alias lock='i3lock -d -c 000000'
 
 #alias gvim='vim -c ":gvim"'
 #alias gc='g *.[hc] Makefile'
