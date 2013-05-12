@@ -6,7 +6,6 @@ alias l='ls -CFh'
 alias lll='ll'
 
 alias cls='clear'
-alias pacman='pacman-color'
 alias pycp='pycp -i'
 alias ..='cd ..'
 alias pymv='pymv -i'
