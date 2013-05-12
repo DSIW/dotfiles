@@ -49,10 +49,12 @@ alias g='git'
 alias calc='bc <<<'
 
 # Git Aliase
-alias gst='git status'
-alias ga='git add'
-alias gaa='git add --all'
-alias gc='git commit'
+alias gst='git st'
+alias ga='git add '
+alias gaa='git add --all '
+alias gc='git commit -m '
+alias gca='git commit -am '
+alias gco='git checkout '
 
 alias ':q'='exit'
 
