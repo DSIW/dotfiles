@@ -20,27 +20,33 @@
   added = yellow
   changed = green
   untracked = cyan
+[log]
+  decorate = full
 [pack]
   threads = 0
 [alias]
+  pr = pull --rebase
   st = status -sb
   cl = clone
-  ci = commit
+  ci = commit -v
   br = branch
   co = checkout
-  df = diff --word-diff
-  dc = diff --cached --word-diff
+  df = diff
+  dc = diff --cached
   sm = submodule
   cp = cherry-pick
   dt = difftool
+  rbm = rebase master
+  rbc = rebase --continue
+  rba = rebase --abort
+  mt = mergetool
 
-  # Log
+  ; Log
   lg = log -p
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit
-  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  count = shortlog -sn
+  lol = log --graph --decorate --pretty=format:'%Cred%h%Creset [%C(blue)%an%Creset %C(yellow)%ar%Creset]%C(red bold)%d%Creset %s' --abbrev-commit
+  lols = log --graph --decorate --pretty=format:'%Cred%h%Creset [%C(blue)%an%Creset %C(yellow)%ar%Creset]%C(red bold)%d%Creset %s' --abbrev-commit --all
 
-  # List
+  ; List
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
 
@@ -48,34 +54,50 @@
   undo = reset HEAD@{1}
   last = log -1 HEAD
 
-  # Plural
+  ; Plural
   remotes = remote -v
   branches = branch -a
   tags = tag -l
 
-  # Assume changes
+  ; Assume changes
   ignchg = update-index --assume-unchanged
   noignchg = update-index --no-assume-unchanged
 
-  #https://github.com/thoughtbot/dotfiles/blob/master/gitconfig
-  #create-branch = !/bin/sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
-  #delete-branch = !/bin/sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
-  #merge-branch = !git checkout master && git merge @{-1} --ff-only
-  #rebase-origin = !git fetch origin && git rebase origin/master
+  ; https://github.com/thoughtbot/dotfiles/blob/master/gitconfig
+  ;create-branch = !/bin/sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
+  ;delete-branch = !/bin/sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
+  ;merge-branch = !git checkout master && git merge @{-1} --ff-only
+  ;rebase-origin = !git fetch origin && git rebase origin/master
 [github]
   user = <%= CONFIG["github"]["name"] || gets("GitHub Username: ") %>
   token = <%= CONFIG["github"]["token"] || gets("GitHub API Token: ") %>
 [merge]
   tool = vimdiff
+  ff = no
+  summary = true
+  verbosity = 1
+[core]
+  autocrlf = false
+  editor = vim
+  ;mergeoptions = --no-commit --no-ff
 [branch]
-	autosetupmerge = true
-  autosetuprebase = always
-  mergeoptions = --commit --no-ff
+  autosetupmerge = true
+  ;autosetuprebase = always
+  ;mergeoptions = --commit --no-ff
 [rerere]
-	enabled = true
+  enabled = true
 [difftool]
-	prompt = false
+  prompt = false
+[diff]
+  ; Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
+  ; instead of a/b/c/d as prefixes for patches
+  mnemonicprefix = true
 [push]
-	default = simple
+  default = tracking
 [help]
   autocorrect = 1
+[gc]
+  auto=1
+[mergetool "vimdiff"]
+  cmd="vim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
+  keepbackup=false
