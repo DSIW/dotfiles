@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(archlinux battery bundler git git-remote-branch git-flow github ruby rake gem ssh-agent vundle zsh-syntax-highlighting rbenv)
+plugins=(archlinux battery bundler git git-remote-branch git-flow github ruby rake gem ssh-agent vundle zsh-syntax-highlighting)
 #plugins=(archlinux battery git github ssh-agent vundle)
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
@@ -51,7 +51,8 @@ export LOCALE=en_US.utf8
 source ~/.aliasrc
 source ~/.zshenv
 
-eval "$(rbenv init -)"
+#eval "$(rbenv init -)"
+[ -s ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
 
 stty -ixon
 
