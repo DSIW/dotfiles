@@ -8,7 +8,7 @@
 " If you would like to use another vi clone such Elvis or Vile
 " you will need to change this setting.
 
-set vicmd=vim
+set vicmd=gvim\ --servername\ GVIM\ --remote-silent-tab
 " set vicmd=elvis\ -G\ termcap
 " set vicmd=vile
 
