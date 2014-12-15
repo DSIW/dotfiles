@@ -6,37 +6,37 @@ alias l='ls -CFh'
 alias lll='ll'
 
 alias cls='clear'
-alias pycp='pycp -i'
 alias ..='cd ..'
-alias pymv='pymv -i'
 alias tar='tar -a'
 alias zip='zip -r'
 alias unp='unp -U'
 alias mkdir='mkdir -p'
 alias bc='bc -ql'
-alias mc='mc -b'
 alias sox='sox -S'
 alias wget='wget -c'
 alias psall='ps -axuwwwf'
 alias mpg123='mpg123 -vC'
 alias lo='libreoffice'
-#alias du='du -sch'
-#alias df='df -hT'
+alias du='du -h'
+alias df='df -hT'
 alias dmesg='dmesg -T'
+alias ag='ag -Sf'
+alias scp='scp -r'
+alias time='/usr/bin/time -p'
+
+alias sshX='ssh -XC -c blowfish-cbc,arcfour '
 
 # Power (see /etc/sudoers with /usr/sbin/visudo)
-alias shutdown='sudo shutdown -hP now'
 alias reboot='sudo reboot'
 alias halt='sudo halt'
 alias poweroff='sudo poweroff'
-alias shutdown='sudo shutdown -hP'
 alias reboot='sudo reboot'
 #alias lock='gnome-screensaver-command -l'
 #alias monoff='xset dpms force off'
 #alias monoffs='samsung-tools -b toggle'
-alias showtemp='watch --i=1 cat /proc/acpi/{battery/*/state,thermal_zone/*/temperature}'
 alias showcpufreq='watch -n 1 grep "MHz" /proc/cpuinfo'
 alias showopenports='sudo netstat -tulpen | grep -v '127.0.0.1''
+alias privateip='ip -4 addr show wlp3s0 | grep inet | cut -d" " -f 6'
 alias trash='trash-put'
 alias shttpserver='python2 -mSimpleHTTPServer 8080 >/dev/null'
 alias x='startx'
@@ -47,10 +47,14 @@ alias vi='vim'
 alias vim='gvim'
 alias g='git'
 alias calc='bc <<<'
+# alias screenshot='scrot --select --delay 3 /home/dsiw/media/screenshots/%Y-%m-%d-%T-screenshot.png'
+alias screenshot='shutter'
+alias dd='dcfldd'
 
 # Git Aliase
 alias gst='git st'
 alias ga='git add '
+alias gap='git add -p'
 alias gaa='git add --all '
 alias gc='git commit -m '
 alias gca='git commit -am '
@@ -71,11 +75,17 @@ alias paclocs='pacman -Qs'                  # Search for package(s) in the local
 alias pacpkgfile='pacman -Qo'               # Search for package(s), which have the file included
 alias pacupd='sudo pacman -Sy && sudo abs'  # Update and refresh the local package and ABS databases against repositories
 alias pacmir='sudo pacman -Syy'             # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
+alias pacclear='sudo paccache --keep 1 --remove' # Clear all old packages
+
+alias webserver='python3 -m http.server 9090'
 
 # safety features
 alias rm='rm -iv'
-alias cp='cp -irv'
+# alias rm=trash # install aur/trash-cli
+alias cp='cp -iRv'
+# alias cp='acp -igr' # install aur/advcp
 alias mv='mv -iv'
+#alias mv='amv -ig' # install aur/advcp
 alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
@@ -84,7 +94,12 @@ alias chgrp='chgrp --preserve-root'
 alias refreshzsh='source ~/.zshrc'
 alias refreshurxvt='xrdb ~/.Xresources'
 alias myzshrc='vim ~/.zshrc.local'
-alias lock='i3lock -d -c 000000'
+
+alias suspend='sudo pm-suspend'
+
+alias burniso='wodim -v -sao dev=/dev/sr0'
+alias teamviewer='sudo systemctl start teamviewerd && teamviewer && sudo systemctl stop teamviewerd || echo "sudo systemctl stop teamviewerd"'
+alias yc='youtube-dl $(xclip -out -selection clipboard)'
 
 #alias gvim='vim -c ":gvim"'
 #alias gc='g *.[hc] Makefile'
@@ -105,11 +120,12 @@ up() { # http://www.commandlinefu.com/commands/view/10878/quickly-cd-out-of-dire
 }
 #}}}
 ### Global aliases ####{{{
-alias -g G="| grep"
+alias -g G="| ag"
 alias -g L="| less"
 alias -g M="| more"
 alias -g T="| tail"
 alias -g H="| head"
+alias -g C="| wc -l"
 #alias -g PICS="*.jpg *.bmp *.tiff *.jpeg"
 #}}}
 
