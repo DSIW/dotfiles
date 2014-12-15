@@ -173,7 +173,7 @@ module Util
   end
   include Dotfile
 
-  module File
+  module DotfileUtils
     def replace_file file
       FileUtils.rm_rf target_of(file), :noop => DEBUG
       link_file file
@@ -250,7 +250,7 @@ module Util
       FileUtils.rm_f(file, :noop => DEBUG)
     end
   end
-  include File
+  include DotfileUtils
 
   module ZSH
     def switch_to_zsh
