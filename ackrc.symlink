@@ -1,0 +1,7 @@
+# ignore dirs
+--ignore-dir=node_modules
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=vendor
+--ignore-dir=public/generated
+--sort-files
