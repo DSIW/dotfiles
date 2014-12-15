@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# ~/.xinitrc
+#
+# Executed by startx (run your window manager from here)
+
+# exec startkde
+# exec xterm
+#exec ck-launch-session dbus-launch --exit-with-session startxfce4
+
+# Fonts
+xset +fp /usr/share/fonts/local
+xset fp rehash || cd /usr/share/fonts/local; mkfontdir
+
+# xmodmap
+xbindkeys
+synclient TouchpadOff=1
+xrdb -merge ~/.Xresources
+
+# Autostart
+udiskie &
+# lock computer after 5 minutes of inactivity
+# ruby media/change_screensaver.rb
+xautolock -time 15 -locker 'i3lock -d -c 000000' &
+# suspend computer after 30 minutes of inactivity
+# xautolock -time 30 -locker "sudo pm-suspend" -detectsleep &
+
+exec subtle > ~/.subtle.log
+
+#exec gnome-session > ~/.gnome-session.log
+#exec ck-launch-session dbus-launch gnome-session > ~/.gnome-session.log
+#exec awesome
+#exec i3
+#exec startlxde
