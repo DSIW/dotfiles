@@ -81,7 +81,6 @@ set timefmt=\ %m/%d\ %H:%M
 mark h /home/dsiw ../
 mark m /home/dsiw/.module ../
 mark s /home/dsiw/.studium ../
-mark b /home/dsiw/.blog source/
 mark d /home/dsiw/dl ../
 
 " :com[mand] command_name action
@@ -97,8 +96,9 @@ mark d /home/dsiw/dl ../
 " %m run the command in a menu window
 
 command diff vim -d %f %F
-command link ln -s %f %D/
-command tgz :!tar -cvzf %f.tar.gz %f
+command link ln -s %d/%f %D/
+command pack :!tar -cvzf %f.tar.gz %f
+command targz :!tar -cvzf %f.tar.gz %f
 command ev :e ~/.vifm/vifmrc
 command sv :source ~/.vifm/vifmrc
 
@@ -111,21 +111,23 @@ command sv :source ~/.vifm/vifmrc
 " The %a macro is ignored.  To use a % you must put %%.
 
 " FuseZipMount
-filetype *.zip,*.jar,*.war,*.ear unp -U
+filetype *.zip,*.tgz,*.tar.*,*.jar,*.war,*.ear unp -U
 
 " Documents
 filetype *.pdf,*.djvu,*.ps evince
-filetype *.html firefox
+filetype *.html chromium
 filetype *.ods,*.odt,*.xlsx,*.xls,*.doc,*.docx,*.ppt,*.pptx libreoffice
 
 " Media
-filetype *.avi,*.mov,*.mkv,*.wmv,*.mp4,*.webm vlc
+filetype *.wav,*.avi,*.mov,*.mkv,*.wmv,*.mp4,*.webm,*.flv vlc
 filetype *.mp3 mpg123
 filetype *.ogg mplayer
-filetype *.jpg,*.jpeg,*.gif,*.png,*.bmp,*.tiff eog
+filetype *.xcf gimp
+filetype *.jpg,*.jpeg,*.gif,*.png,*.bmp,*.tiff,*.tif,*.svg eog
 
-" ISOs
+" Div
 filetype *.iso mountiso
+filetype *.ggb geogebra
 
 " For automated FUSE mounts, you must register an extension with FILETYPE=..
 " in one of following formats:
