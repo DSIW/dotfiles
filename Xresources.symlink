@@ -1,0 +1,174 @@
+!!TomorrowNight
+!#define t_background       #1d1f21
+!#define t_current_line     #282a2e
+!#define t_selection        #373b41
+!#define t_foreground       #c5c8c6
+!#define t_comment          #969896
+!#define t_red              #cc6666
+!#define t_orange           #de935f
+!#define t_yellow           #f0c674
+!#define t_green            #b5bd68
+!#define t_aqua             #8abeb7
+!#define t_blue             #81a2be
+!#define t_purple           #b294bb
+
+
+!*.foreground:   t_foreground
+!*.background:   t_background
+!*.cursorColor:  #aeafad
+
+!! Black / Grey
+!*.color0:       #000000
+!*.color8:       #666666
+
+!! Red / Bright Red
+!*.color1:       t_red
+!*.color9:       #FF3334
+
+!! Green + Bright Green
+!*.color2:       t_green
+!*.color10:      #9ec400
+
+!! Yellow (Orange) + Bright Yellow (Yellow)
+!*.color3:       t_orange
+!*.color11:      t_yellow
+
+!! Blue + Bright Blue
+!*.color4:       t_blue
+!*.color12:      t_blue
+
+!! Magenta (Purple) + Bright Magenta
+!*.color5:       t_purple
+!*.color13:      #b777e0
+
+!! Cyan (Aqua) + Bright Cyan
+!*.color6:       t_aqua
+!*.color14:      #54ced6
+
+!! Light Grey (Selection) + White (Current Line)
+!*.color7:       t_selection
+!*.color15:      t_current_line
+
+
+! Solarized color scheme for the X Window System
+!
+! http://ethanschoonover.com/solarized
+
+
+! Common
+
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+
+! Dark
+
+!#define S_base03        #002b36
+!#define S_base02        #073642
+!#define S_base01        #586e75
+!#define S_base00        #657b83
+!#define S_base0         #839496
+!#define S_base1         #93a1a1
+!#define S_base2         #eee8d5
+!#define S_base3         #fdf6e3
+
+
+! Light
+
+#define S_base03        #fdf6e3
+#define S_base02        #eee8d5
+#define S_base01        #93a1a1
+#define S_base00        #839496
+#define S_base0         #657b83
+#define S_base1         #586e75
+#define S_base2         #073642
+#define S_base3         #002b36
+
+
+! To only apply colors to your terminal, for example, prefix
+! the color assignment statement with its name. Example:
+!
+! URxvt*background:           S_base03
+
+*background:                   S_base03
+*foreground:                   S_base0
+*fading:                       40
+*fadeColor:                    S_base03
+*cursorColor:                  S_base1
+*pointerColorBackground:       S_base01
+*pointerColorForeground:       S_base1
+
+*color0:                       S_base02
+*color1:                       S_red
+*color2:                       S_green
+*color3:                       S_yellow
+*color4:                       S_blue
+*color5:                       S_magenta
+*color6:                       S_cyan
+*color7:                       S_base2
+*color9:                       S_orange
+*color8:                       S_base03
+*color10:                      S_base01
+*color11:                      S_base00
+*color12:                      S_base0
+*color13:                      S_violet
+*color14:                      S_base1
+*color15:                      S_base3
+
+
+
+
+
+!  URxvt*font:                 xft:DejaVu Sans Mono:size=9:antialias=true
+URxvt*font:                    xft:Monospace:size=9:antialias=true
+URxvt*scrollBar:               false
+URxvt.perl-ext-common:         default,clipboard,url-select,keyboard-select,matcher
+! tabbed,tabbedex
+!URxvt.tabbed.tabbar-fg:        2
+!URxvt.tabbed.tabbar-bg:        0
+!URxvt.tabbed.tab-fg:           3
+!URxvt.tabbed.tab-bg:           0
+URxvt.url-launcher:            /usr/bin/xdg-open
+URxvt.matcher.button:          1
+URxvt.perl-ext:                default
+!URxvt.keysym.M-t: urxvt
+URxvt*loginShell:              true
+!URxvt*saveLines:               8192
+!URxvt*scrollstyle:             plain
+!URxvt*scrollBar_right:         true
+URxvt*scrollTtyOutput:         true
+URxvt*scrollTtyKeypress:       true
+URxvt*cursorBlink:             true
+URxvt*cursorUnderline:         false
+!URxvt*cursorColor:             #b58900
+
+URxvt*keysym.Home:             \033[1~
+URxvt*keysym.End:              \033[4~
+
+
+URxvt.tabbedex.autohide:       yes
+URxvt.tabbedex.tabbar-fg:      2
+URxvt.tabbedex.tabbar-bg:      0
+URxvt.tabbedex.tab-fg:         10
+URxvt.tabbedex.tab-bg:         0
+URxvt.tabbedex.title:          yes
+URxvt.tabbedex.new-button:     no
+URXvt.tabbed.reopen-on-close:  yes
+URxvt.keysym.C-t:              perl:tabbedex:new_tab
+!URxvt.keysym.C-S-t:            perl:tabbedex:new_tab
+URxvt.keysym.C-PageUp:       perl:tabbex:move_tab_left
+URxvt.keysym.C-PageDown:     perl:tabbex:move_tab_right
+
+URxvt.url-select.launcher:     /usr/bin/xdg-open
+URxvt.url-select.underline:    false
+URxvt.keysym.M-u:              perl:url-select:select_next
+URxvt.keysym.M-Escape:         perl:keyboard-select:activate
+URxvt.keysym.M-s:              perl:keyboard-select:search
+
+URxvt.keysym.M-Return:         \ urxvt\ &!\012
