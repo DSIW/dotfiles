@@ -11,7 +11,7 @@ rescue Exception => e
   COLORS = false
 end
 
-DEBUG                       = true
+DEBUG                       = false
 DOTFILE_EXT                 = "symlink"
 ERB_EXT                     = "erb"
 BACKUP_EXT                  = "bak"
