@@ -1,0 +1,69 @@
+set hlsearch
+set scrolloff=3
+set ignorecase smartcase
+set showmode
+set history=1000
+
+
+nmap j gj
+nmap k gk
+map <C-s> <esc>:w<cr>
+nmap Y y$
+vmap < <gv
+vmap > >gv
+" nmap / /\v
+nmap n nzzzv
+nmap N Nzzzv
+nmap <c-o> <c-o>zz
+nmap H ^
+nmap L $
+vmap L $
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+nmap <silent> ,cw :close<CR>
+nmap <silent> ,q :close<CR>
+nmap <silent> ]w :next<CR>
+nmap <silent> [w :prev<CR>
+nmap <silent> vv <C-w>v
+nmap <silent> ss <C-w>s
+cmap bd q
+
+" list all existing special mappings via command :actionlist
+
+" code navigation
+nnoremap ,f :action GotoFile<cr>
+nnoremap ,m :action RecentChangedFiles<cr>
+nnoremap ,i :action GotoImplementation<cr>
+nnoremap ,s :action SurroundWith<cr>
+nnoremap ,S :action GotoSuperMethod<cr>
+nnoremap ,u :action FindUsages<cr>
+nnoremap ,gt :action GotoTest<cr>
+nnoremap ,k :action HighlightUsagesInFile<cr>
+" nnoremap <C-F11> :action Run<cr>
+" nnoremap <C-F10> :action Debug<cr>
+
+" code refactoring
+map == :action ReformatCode<CR>
+nnoremap ,rr :action RenameElement<cr>
+nnoremap ,relv :action IntroduceVariable<cr>
+nnoremap ,ref :action IntroduceField<cr>
+nnoremap ,rec :action IntroduceConstant<cr>
+
+" unimpaired mappings
+nnoremap [<space> O<esc>j
+nnoremap ]<space> o<esc>k
+nnoremap [q :action PreviousOccurence<cr>
+nnoremap ]q :action NextOccurence<cr>
+nnoremap [m :action MethodUp<cr>
+nnoremap ]m :action MethodDown<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap gcc :action CommentByLineComment<cr>
+nnoremap - :action InvertBoolean<cr>
+nnoremap ,ld iLog.d(getClass().getName(), "");<ESC>:action ReformatCode<CR>hhi
+nnoremap ,li iLog.i(getClass().getName(), "");<ESC>:action ReformatCode<CR>hhi
+
+" activate plugin vim-surround
+set surround
