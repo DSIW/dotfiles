@@ -1,5 +1,25 @@
+[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
+[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME="$HOME/.cache"
+[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME="$HOME/.local/share"
+export TERM="xterm-256color"
+export PATH="$HOME/bin:$HOME/.ruby-bin:$PATH"
 export TIME_STYLE=long-iso
 export EDITOR="vim"
 export LANG="en_US.utf8"
+export ANDROID_HOME=/opt/android-sdk
+export WORKON_HOME=$HOME/.config/virtualenvs
+export PYTHONDONTWRITEBYTECODE="true"
+export SUMO_HOME=/usr/lib/sumo
+
+# NPM
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$NPM_PACKAGES/bin:$PATH"
+# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+export FZF_DEFAULT_OPTS='--height 60%'
+
+systemctl --user import-environment DISPLAY # for redshift user service
 
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local

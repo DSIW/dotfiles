@@ -16,16 +16,20 @@ xset fp rehash || cd /usr/share/fonts/local; mkfontdir
 xbindkeys
 synclient TouchpadOff=1
 xrdb -merge ~/.Xresources
+setxkbmap de
 
 # Autostart
 udiskie &
-# lock computer after 5 minutes of inactivity
+dunst &
+# lock computer after 15 minutes of inactivity
 # ruby media/change_screensaver.rb
-xautolock -time 15 -locker 'i3lock -d -c 000000' &
+xautolock -time 15 -locker '/home/dsiw/sys/bin/sys/lock' -detectsleep &
 # suspend computer after 30 minutes of inactivity
 # xautolock -time 30 -locker "sudo pm-suspend" -detectsleep &
 
-exec subtle > ~/.subtle.log
+# exec subtle > ~/.subtle.log
+echo "\nSTART $(date)" >> ~/.herbstluftwm.log
+exec herbstluftwm --locked >> ~/.herbstluftwm.log
 
 #exec gnome-session > ~/.gnome-session.log
 #exec ck-launch-session dbus-launch gnome-session > ~/.gnome-session.log

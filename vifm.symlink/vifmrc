@@ -21,6 +21,8 @@ set vicmd=gvim\ --servername\ GVIM\ --remote-silent-tab
 
 set trash
 
+set confirm=permdelete " delete
+
 " This is how many directories to store in the directory history.
 
 set history=15
@@ -76,12 +78,16 @@ set fusehome=/tmp/vifm_FUSE
 
 set timefmt=\ %m/%d\ %H:%M
 
+" Custom Mappings
+" nmap dd trash-put %f
+
 " :mark mark /full/directory/path [filename]
 
 mark h /home/dsiw ../
 mark m /home/dsiw/.module ../
 mark s /home/dsiw/.studium ../
 mark d /home/dsiw/dl ../
+mark p /home/dsiw/projects ../
 
 " :com[mand] command_name action
 " The following macros can be used in a command
@@ -111,23 +117,24 @@ command sv :source ~/.vifm/vifmrc
 " The %a macro is ignored.  To use a % you must put %%.
 
 " FuseZipMount
-filetype *.zip,*.tgz,*.tar.*,*.jar,*.war,*.ear unp -U
+filetype *.zip,*.tgz,*.tar,*.tar.*,*.bz2,*.jar,*.war,*.ear,*.7z,*.rar unp -U
 
 " Documents
 filetype *.pdf,*.djvu,*.ps evince
-filetype *.html chromium
-filetype *.ods,*.odt,*.xlsx,*.xls,*.doc,*.docx,*.ppt,*.pptx libreoffice
+filetype *.html,*.htm,*.xhtml vicmd
+filetype *.ods,*.odt,*.xlsx,*.xls,*.doc,*.docx,*.ppt,*.pptx,*.pps libreoffice
 
 " Media
-filetype *.wav,*.avi,*.mov,*.mkv,*.wmv,*.mp4,*.webm,*.flv vlc
-filetype *.mp3 mpg123
+filetype *.mp3,*.wav,*.avi,*.mov,*.mkv,*.wmv,*.mp4,*.webm,*.flv,*.mpg,*.ogv,*.lrv,*.lrv,*.h264 mpv
 filetype *.ogg mplayer
 filetype *.xcf gimp
-filetype *.jpg,*.jpeg,*.gif,*.png,*.bmp,*.tiff,*.tif,*.svg eog
+filetype *.jpg,*.jpeg,*.gif,*.png,*.bmp,*.tiff,*.tif,*.svg,*.cr2,*.ppm,*.dng eog
+filetype *.xcf gimp
 
 " Div
 filetype *.iso mountiso
 filetype *.ggb geogebra
+filetype *.sqlite3 sqliteman
 
 " For automated FUSE mounts, you must register an extension with FILETYPE=..
 " in one of following formats:

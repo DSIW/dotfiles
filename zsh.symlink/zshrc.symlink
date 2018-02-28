@@ -29,10 +29,12 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(archlinux git git-remote-branch git-extras hub bundler rails ruby gem ssh-agent zsh-syntax-highlighting tmuxinator tmux) # vi-mode
+plugins=(archlinux git git-remote-branch git-extras bundler ruby gem zsh-syntax-highlighting tmuxinator tmux virtualenvwrapper ssh-agent gpg-agent vi-mode)
 #plugins=(archlinux battery git ssh-agent vundle)
 
-eval "$(hub alias -s)"
+# zstyle :omz:plugins:gpg-agent ssh-support yes
+
+# eval "$(hub alias -s)"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 #ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
@@ -43,15 +45,15 @@ bindkey '\e.' insert-last-word # Type ESC+. to get the last few words
 bindkey "^F" forward-word
 bindkey "^B" backward-word
 
-setopt auto_cd
-cdpath=($HOME/odacer/papierkram $HOME/thesis $HOME/.spaz $HOME/public/github)
+# setopt auto_cd
+# cdpath=($HOME/odacer/papierkram $HOME/thesis $HOME/.spaz $HOME/public/github)
 
 # zftp
-fpath=(~/myfns $fpath)
+fpath=(~/.zsh/completers $fpath)
 autoload -U zfinit && zfinit
 
-autoload -U tetris
-zle -N tetris
+# autoload -U tetris
+# zle -N tetris
 # hit alt-x and then type tetris and hit CR
 
 # Better history searching with arrow keys
@@ -75,9 +77,11 @@ zstyle ':completion:*:kill:*'   force-list always
 
 autoload -Uz compinit
 compinit
+# load custom completions
+source ~/.zsh/completions
 # Use compinstall to start wizard for completion settings
 
-eval $(dircolors ~/.dircolors)
+# eval $(dircolors ~/.dircolors)
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 export LOCALE=en_US.utf8
@@ -92,12 +96,18 @@ setopt extendedhistory
 
 stty -ixon
 
-# [ -s ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
-# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-#eval "$(rbenv init -)"
-source /usr/share/chruby/chruby.sh
-RUBIES+=(~/.rvm/rubies/*)
-source /usr/share/chruby/auto.sh
+# anyenv
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
+eval $(pyenv virtualenv-init -) # FIXME: (eval):1: parse error near `then'
+
+# rbenv (rather use chruby)
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
+# chruby
+# source /usr/share/chruby/chruby.sh
+# source /usr/share/chruby/auto.sh
+# Use ruby-install for installing new ruby versions
 
 function rspec {
   echo "Rules":
@@ -114,15 +124,38 @@ function rspec {
 
 #############
 
-# Basically type '...' to get '../..' with successive .'s adding /..
-rationalise-dot() {
-if [[ $LBUFFER = *.. ]]; then
-  LBUFFER+=/..
-else
-  LBUFFER+=.
-fi
-}
-zle -N rationalise-dot
-bindkey . rationalise-dot
 # without this, typing a . aborts incremental history search
 bindkey -M isearch . self-insert
+
+
+# [[ -f ".venv" ]] && eval "workon $(cat .venv)"
+
+[[ -f /etc/profile.d/fzf.zsh ]] && source /etc/profile.d/fzf.zsh
+
+# SSH and GPG Agent for caching
+
+# eval $(keychain --nogui --quiet --agents gpg,ssh --confhost --eval id_rsa $(cat ~/.password-store/.gpg-id))
+# eval $(keychain --nogui --quiet --agents ssh --confhost --eval id_rsa)
+# source <(envoy -t gpg-agent -p)
+
+# # Start the gpg-agent if not already running
+# if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+#   gpg-connect-agent /bye >/dev/null 2>&1
+# fi
+
+# # # Set GPG TTY
+# export GPG_TTY=$(tty)
+
+# # # Set SSH to use gpg-agent
+# [ -r ~/.gnupg/gpg-agent.env ] && source ~/.gnupg/gpg-agent.env
+# unset SSH_AGENT_PID
+# if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+#   export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+# fi
+
+# # # Refresh gpg-agent tty in case user switches into an X session
+# gpg-connect-agent updatestartuptty /bye >/dev/null
+
+# if [[ $SSH_AGENT_PID ]] && [[ $(kill -0 $SSH_AGENT_PID) == '0' ]]; then
+#   /usr/bin/ssh-add
+# fi

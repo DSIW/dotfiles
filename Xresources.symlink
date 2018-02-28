@@ -69,26 +69,26 @@
 
 ! Dark
 
-!#define S_base03        #002b36
-!#define S_base02        #073642
-!#define S_base01        #586e75
-!#define S_base00        #657b83
-!#define S_base0         #839496
-!#define S_base1         #93a1a1
-!#define S_base2         #eee8d5
-!#define S_base3         #fdf6e3
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
 
 
 ! Light
 
-#define S_base03        #fdf6e3
-#define S_base02        #eee8d5
-#define S_base01        #93a1a1
-#define S_base00        #839496
-#define S_base0         #657b83
-#define S_base1         #586e75
-#define S_base2         #073642
-#define S_base3         #002b36
+! #define S_base03        #fdf6e3
+! #define S_base02        #eee8d5
+! #define S_base01        #93a1a1
+! #define S_base00        #839496
+! #define S_base0         #657b83
+! #define S_base1         #586e75
+! #define S_base2         #073642
+! #define S_base3         #002b36
 
 
 ! To only apply colors to your terminal, for example, prefix
@@ -126,7 +126,13 @@
 
 
 !  URxvt*font:                 xft:DejaVu Sans Mono:size=9:antialias=true
-URxvt*font:                    xft:Monospace:size=9:antialias=true
+! URxvt*font:                    xft:Monospace:size=9:antialias=true
+URxvt*font:                 xft:GohuGohuFont:regular:size=11
+URxvt*imFont:               xft:GohuGohuFont:regular:size=11
+URxvt*boldFont:             xft:GohuGohuFont:bold:size=11
+URxvt*italicFont:           xft:GohuGohuFont:italic:size=11
+URxvt*boldItalicFont:       xft:GohuGohuFont:bold:italic:size=11
+
 URxvt*scrollBar:               false
 URxvt.perl-ext-common:         default,clipboard,url-select,keyboard-select,matcher
 ! tabbed,tabbedex
@@ -172,3 +178,36 @@ URxvt.keysym.M-Escape:         perl:keyboard-select:activate
 URxvt.keysym.M-s:              perl:keyboard-select:search
 
 URxvt.keysym.M-Return:         \ urxvt\ &!\012
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme https://davedavenport.github.io/rofi/p05-Themes.html
+! ------------------------------------------------------------------------------
+! State:           'bg',    'fg',    'bgalt', 'hlbg',  'hlfg'
+rofi.color-enabled: true
+rofi.color-window: #202020, #000000, #141414
+rofi.color-normal: #202020, #757575, #262626, #075d78, #dfdfdf
+rofi.color-active: #202020, #35a9fe, #262626, #2e9bea, #ececec
+rofi.color-urgent: #202020, #ff2525, #262626, #dd0404, #dfdfdf
+
+rofi.background: #202020
+rofi.foreground: #ABABAB
+rofi.highlightbg: #303030
+rofi.highlightfg: #35A9FE
+rofi.bordercolor: #678698
+rofi.padding: 1
+rofi.lines: 15
+rofi.borderwidth: 1
+rofi.opacity: 100
+rofi.font: Inconsolata 10
+rofi.location: 7
+rofi.yoffset: 0
+rofi.xoffset: 0
+rofi.width: 100
+rofi.fixed_num_lines: 1
+rofi.hmode: false
+rofi.terminal: urxvt
+rofi.ssh-set-title: false
+
+dzen2.font:       -*-gohugohufont-*-*-*-*-11-*-*-*-*-*-*-*
+dzen2.foreground: #ababab
+dzen2.background: #000000

@@ -7,22 +7,11 @@ alias lll='ll'
 
 alias cls='clear'
 alias ..='cd ..'
-alias tar='tar -a'
-alias zip='zip -r'
-alias unp='unp -U'
-alias mkdir='mkdir -p'
-alias bc='bc -ql'
-alias sox='sox -S'
-alias wget='wget -c'
-alias psall='ps -axuwwwf'
-alias mpg123='mpg123 -vC'
-alias lo='libreoffice'
-alias du='du -h'
-alias df='df -hT'
-alias dmesg='dmesg -T'
-alias ag='ag -Sf'
-alias scp='scp -r'
-alias time='/usr/bin/time -p'
+# alias mpg123='mpg123 -vC'
+# alias lo='libreoffice'
+alias time='/usr/bin/time -p' # overwrite built-in function
+alias suspend="${HOME}/sys/bin/suspend" # overwrite built-in function
+alias ruby-install='ruby-install --src-dir "/tmp/ruby-install-src"'
 
 alias sshX='ssh -XC -c blowfish-cbc,arcfour '
 
@@ -31,75 +20,83 @@ alias reboot='sudo reboot'
 alias halt='sudo halt'
 alias poweroff='sudo poweroff'
 alias reboot='sudo reboot'
-#alias lock='gnome-screensaver-command -l'
-#alias monoff='xset dpms force off'
-#alias monoffs='samsung-tools -b toggle'
-alias showcpufreq='watch -n 1 grep "MHz" /proc/cpuinfo'
-alias showopenports='sudo netstat -tulpen | grep -v '127.0.0.1''
-alias privateip='ip -4 addr show wlp3s0 | grep inet | cut -d" " -f 6'
+
+alias monoff='xset dpms force off'
+# alias showcpufreq='watch -n 1 grep "MHz" /proc/cpuinfo'
+alias showopenports='netstat -tulpen'
 alias trash='trash-put'
-alias shttpserver='python2 -mSimpleHTTPServer 8080 >/dev/null'
-alias x='startx'
-#alias vim='vim --servername VIM --remote-tab-silent'
+alias webserver='python3 -m http.server 9090'
+#alias vim='gvim --servername GVIM --remote-tab-silent'
 alias gvim='gvim --servername GVIM --remote-tab-silent'
-alias v='vim'
-alias vi='vim'
 alias vim='gvim'
-alias g='git'
+alias qrdecode='zbarimg'
 alias calc='bc <<<'
 # alias screenshot='scrot --select --delay 3 /home/dsiw/media/screenshots/%Y-%m-%d-%T-screenshot.png'
-alias screenshot='shutter'
-alias dd='dcfldd'
+# alias screenshot='shutter'
+# alias screenshot='teiler --screenshot'
+# alias dd='dcfldd'
+alias burniso='wodim -v -sao dev=/dev/sr0'
+alias teamviewer='sudo systemctl start teamviewerd && teamviewer && sudo systemctl stop teamviewerd || echo "Service teamviewerd stopped."'
+alias mkdvdiso='dd if=/dev/cdrom of=/home/dsiw/media/iso_image_$(date +%Y%m%d-%H%M%S).iso'
+alias services='systemctl --type=service --all'
+# alias yc='youtube-dl "$(xclip -out -selection clipboard)"'
+alias hc='herbstclient'
+alias fonts='fc-list'
+alias weather="curl wttr.in/berlin"
+alias mux="tmuxinator"
 
 # Git Aliase
 alias gst='git st'
 alias ga='git add '
 alias gap='git add -p'
-alias gaa='git add --all '
 alias gc='git commit -m '
 alias gca='git commit -am '
-alias gco='git checkout '
 
 alias ':q'='exit'
 
 # Pacman Aliase
-alias pacup='sudo pacman -Syu'              # Synchronize with repositories before upgrading packages that are out of date on the local system.
-alias pacin='sudo pacman -S'                # Install specific package(s) from the repositories
-alias pacins='sudo pacman -U'               # Install specific package not from the repositories but from a file
-alias pacre='sudo pacman -R'                # Remove the specified package(s), retaining its configuration(s) and required dependencies
+# alias pacup='sudo pacman -Syu'              # Synchronize with repositories before upgrading packages that are out of date on the local system.
+# alias pacin='sudo pacman -S'                # Install specific package(s) from the repositories
+# alias pacins='sudo pacman -U'               # Install specific package not from the repositories but from a file
+# alias pacre='sudo pacman -R'                # Remove the specified package(s), retaining its configuration(s) and required dependencies
 alias pacrm='sudo pacman -Rns'              # Remove the specified package(s), its configuration(s) and unneeded dependencies
-alias paci='pacman -Si'                     # Display information about a given package in the repositories
-alias pacreps='pacman -Ss'                  # Search for package(s) in the repositories
-alias pacloc='pacman -Qi'                   # Display information about a given package in the local database
-alias paclocs='pacman -Qs'                  # Search for package(s) in the local database
-alias pacpkgfile='pacman -Qo'               # Search for package(s), which have the file included
-alias pacupd='sudo pacman -Sy && sudo abs'  # Update and refresh the local package and ABS databases against repositories
-alias pacmir='sudo pacman -Syy'             # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
-alias pacclear='sudo paccache --keep 1 --remove' # Clear all old packages
+# alias paci='pacman -Si'                     # Display information about a given package in the repositories
+# alias pacreps='pacman -Ss'                  # Search for package(s) in the repositories
+# alias pacloc='pacman -Qi'                   # Display information about a given package in the local database
+# alias paclocs='pacman -Qs'                  # Search for package(s) in the local database
+# alias pacpkgfile='pacman -Qo'               # Search for package(s), which have the file included
+# alias pacupd='sudo pacman -Sy && sudo abs'  # Update and refresh the local package and ABS databases against repositories
+# alias pacmir='sudo pacman -Syy'             # Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
+alias pacclear='sudo paccache --keep 0 --remove' # Clear all old packages
 
-alias webserver='python3 -m http.server 9090'
-
-# safety features
+# Default parameters
 alias rm='rm -iv'
-# alias rm=trash # install aur/trash-cli
 alias cp='cp -iRv'
-# alias cp='acp -igr' # install aur/advcp
 alias mv='mv -iv'
-#alias mv='amv -ig' # install aur/advcp
 alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
+alias tar='tar -a'
+alias zip='zip -r'
+alias unp='unp -U'
+alias mkdir='mkdir -p'
+alias bc='bc -ql'
+alias sox='sox -S'
+alias wget='wget -c'
+alias du='du -h'
+alias df='df -hT'
+alias dmesg='dmesg -T'
+alias ag='ag -USf'
+alias scp='scp -r'
+alias pwgen='pwgen -y1'
+alias cal='cal -m -w --color=always'
+# alias chromium='chromium --process-per-site'
 
 alias refreshzsh='source ~/.zshrc'
 alias refreshurxvt='xrdb ~/.Xresources'
-alias myzshrc='vim ~/.zshrc.local'
 
-alias suspend='sudo pm-suspend'
-
-alias burniso='wodim -v -sao dev=/dev/sr0'
-alias teamviewer='sudo systemctl start teamviewerd && teamviewer && sudo systemctl stop teamviewerd || echo "sudo systemctl stop teamviewerd"'
-alias yc='youtube-dl $(xclip -out -selection clipboard)'
+alias scan='cd ~/scan && sudo ./scan.rb'
 
 #alias gvim='vim -c ":gvim"'
 #alias gc='g *.[hc] Makefile'

@@ -41,6 +41,7 @@ nnoremap ,S :action GotoSuperMethod<cr>
 nnoremap ,u :action FindUsages<cr>
 nnoremap ,gt :action GotoTest<cr>
 nnoremap ,k :action HighlightUsagesInFile<cr>
+nnoremap ,gg :action Generate<cr>
 " nnoremap <C-F11> :action Run<cr>
 " nnoremap <C-F10> :action Debug<cr>
 
@@ -50,6 +51,7 @@ nnoremap ,rr :action RenameElement<cr>
 nnoremap ,relv :action IntroduceVariable<cr>
 nnoremap ,ref :action IntroduceField<cr>
 nnoremap ,rec :action IntroduceConstant<cr>
+nnoremap - :action InvertBoolean<cr>
 
 " unimpaired mappings
 nnoremap [<space> O<esc>j
@@ -60,10 +62,13 @@ nnoremap [m :action MethodUp<cr>
 nnoremap ]m :action MethodDown<cr>
 nnoremap [c :action VcsShowPrevChangeMarker<cr>
 nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap [e :action GotoPreviousError<cr>
+nnoremap ]e :action GotoNextError<cr>
 nnoremap gcc :action CommentByLineComment<cr>
-nnoremap - :action InvertBoolean<cr>
-nnoremap ,ld iLog.d(getClass().getName(), "");<ESC>:action ReformatCode<CR>hhi
-nnoremap ,li iLog.i(getClass().getName(), "");<ESC>:action ReformatCode<CR>hhi
+vnoremap gcc :action CommentByLineComment<cr>
+
+nnoremap ,ld iLog.d(getClass().getSimpleName(), "");<ESC>:action ReformatCode<CR>hhi
+nnoremap ,li iLog.i(getClass().getSimpleName(), "");<ESC>:action ReformatCode<CR>hhi
 
 " activate plugin vim-surround
 set surround
