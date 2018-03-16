@@ -1,6 +1,7 @@
 [user]
   name = <%= CONFIG["git"]["name"] || gets("Your Name: ") %>
   email = <%= CONFIG["git"]["email"] || gets("Your Email: ")%>
+  logallrefupdates = true
 [color]
   ui = auto
   status = auto
@@ -25,35 +26,58 @@
 [pack]
   threads = 0
 [alias]
-  pr = pull --rebase
+  plr = pull --rebase
+  pf = push --force-with-lease
   st = status -sb
   cl = clone
   ci = commit -v
+  fix-commit = commit --fixup
+  fixup = commit --fixup HEAD
   br = branch
   co = checkout
   df = diff
+  diffword = diff --word-diff
   dc = diff --cached
+  diff-commit = diff-tree -p
   sm = submodule
-  cp = cherry-pick
+  cp = cherry-pick -x
+  cpc = cherry-pick --continue
+  cps = cherry-pick --skip
+  cpa = cherry-pick --abort
   dt = difftool
   rbm = rebase master
+  rbi = rebase -i
   rbc = rebase --continue
+  rbs = rebase --skip
   rba = rebase --abort
   mt = mergetool
-  ap = add -p
-  cop = co -p
+  a = add -p
+  co = checkout
+  cob = checkout -b
+  cop = checkout -p
+  com = checkout master
+  rh = reset HEAD
+  amend = commit --amend
+  stash-unadded = stash -k
+  sl = stash list
+  sp = stash pop
+
+  clean-remote-branches = remote prune origin
+  clean-merged-branches = !/bin/sh -c 'git branch --merged | grep -v develop | grep -v \\* | xargs -n 1 git branch -d' -
+	init-ignore = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
+  apply-gitignore = !git ls-files -ci --exclude-standard -z | xargs -0r git rm --cached
 
   ; Log
   lg = log -p
   lol = log --graph --decorate --pretty=format:'%Cred%h%Creset [%C(blue)%an%Creset %C(yellow)%ar%Creset]%C(red bold)%d%Creset %s' --abbrev-commit
-  lols = log --graph --decorate --pretty=format:'%Cred%h%Creset [%C(blue)%an%Creset %C(yellow)%ar%Creset]%C(red bold)%d%Creset %s' --abbrev-commit --all
+  lola = log --graph --decorate --pretty=format:'%Cred%h%Creset [%C(blue)%an%Creset %C(yellow)%ar%Creset]%C(red bold)%d%Creset %s' --abbrev-commit --all
 
   ; List
   ls = ls-files
   ign = ls-files -o -i --exclude-standard
 
   unstage = reset HEAD --
-  undo = reset HEAD@{1}
+  undo = reset HEAD~1 --mixed
   last = log -1 HEAD
 
   ; Plural
@@ -64,6 +88,17 @@
   ; Assume changes
   ignchg = update-index --assume-unchanged
   noignchg = update-index --no-assume-unchanged
+
+  ; source: http://haacked.com/archive/2014/07/28/github-flow-aliases/
+  ec = config --global -e
+  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  cm = !git add -A && git commit -m
+  save = !git add -A && git commit -m "SAVEPOINT"
+  cleanup = !git commit -m "cleanup"
+  wip = !git add -u && git commit -m "WIP"
+  wipe = !git add -A && git commit -qm "WIPE SAVEPOINT" && git reset HEAD~1 --hard
+  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+  bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 
   ; https://github.com/thoughtbot/dotfiles/blob/master/gitconfig
   ;create-branch = !/bin/sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
@@ -79,27 +114,40 @@
   summary = true
   verbosity = 1
 [core]
-  autocrlf = false
+	autocrlf = false
   editor = vim
+	packedGitWindowSize = 16m
   ;mergeoptions = --no-commit --no-ff
 [branch]
   autosetupmerge = true
-  ;autosetuprebase = always
+  autosetuprebase = always
   ;mergeoptions = --commit --no-ff
 [rerere]
   enabled = true
+[mergetool]
+  prompt = false
 [difftool]
   prompt = false
 [diff]
   ; Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
   ; instead of a/b/c/d as prefixes for patches
   mnemonicprefix = true
+	algorithm = patience
 [push]
-  default = tracking
+	default = tracking
+	;default = current
 [help]
-  autocorrect = 1
+  autocorrect = 0
 [gc]
   auto=1
 [mergetool "vimdiff"]
-  cmd="vim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
+  cmd="vim -c 'Gvdiff' $MERGED"     # use fugitive.vim for 3-way merge
   keepbackup=false
+[difftool "latex"]
+	cmd = latexdiff  \"$LOCAL\" \"$REMOTE\"
+[rebase]
+	autostash = true
+	autosquash = true
+[apply]
+	whitespace = nowarn
+
